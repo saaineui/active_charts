@@ -5,7 +5,7 @@ RSpec.describe ActiveCharts do
     expect(ActiveCharts::VERSION).not_to be nil
   end
 
-  it "does something useful" do
-    expect(false).to eq(true)
+  it "::setup returns true" do
+    expect(ActiveCharts.setup).to eq(true)
   end
 end

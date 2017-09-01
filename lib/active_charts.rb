@@ -1,5 +1,9 @@
 require "active_charts/version"
 
 module ActiveCharts
-  # Your code goes here...
+  class << self
+    def setup
+      true
+    end
+  end
 end
