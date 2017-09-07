@@ -8,16 +8,16 @@ module ActiveCharts
       super
       
       @rows_count = @collection.count
-      @columns_count = rows_count.positive? ? @collection.first.count : 0
+      @columns_count = @collection.map(&:count).max
       @bars_count = columns_count * rows_count
       
       process_options(options)
-      process_dimensions
-      process_computed
+      width_calcs
+      height_calcs
     end
     
     attr_reader :x_labels, :series_labels, :bar_width, :svg_height, :label_height, 
-                :rows_count, :columns_count, :bars_count, :max_values, :x_offset, :y_offset,
+                :rows_count, :columns_count, :bars_count, :x_offset, :y_offset,
                 :svg_width, :section_width, :grid_height, :max_bar_height, :max_values, :y_multipliers
     
     def chart_svg_tag
@@ -85,17 +85,16 @@ module ActiveCharts
       @label_height = options[:label_height] || MARGIN / 2
     end
     
-    def process_dimensions
+    def width_calcs
       @svg_width = (bar_width * bars_count) + (rows_count * MARGIN * (1 + columns_count))
       @section_width = rows_count.zero? ? svg_width : svg_width / rows_count.to_d
-      @grid_height = svg_height - label_height * 2
-      @max_bar_height = grid_height - label_height * 3
+      @x_offset = bar_width / 2
     end
     
-    def process_computed
-      @x_offset = bar_width / 2
+    def height_calcs
+      @grid_height = svg_height - label_height * 2
+      @max_bar_height = grid_height - label_height * 3
       @y_offset = label_height / 2
-      @max_values = Util.max_values(@collection.dup)
       @y_multipliers = max_values.map { |max| Util.multiplier(max, max_bar_height) }
     end 
       

@@ -1,7 +1,16 @@
+require 'spec_helper'
+
 module ActiveCharts
   RSpec.describe Util do
     it '::max_values returns array of max values at each index' do
       expect(Util.max_values([[10, -1], [3, 1, 2]])).to eql([10, 1, 2])
+    end
+    
+    it '::array_of_arrays? returns true if item is an array of arrays' do
+      expect(Util.array_of_arrays?([[-1], [3, '1']])).to eql(true)
+      expect(Util.array_of_arrays?([[]])).to eql(true)
+      expect(Util.array_of_arrays?([])).to eql(false)
+      expect(Util.array_of_arrays?([[], {}])).to eql(false)
     end
     
     it '::multiplier returns float for pixels:data_value ratio' do

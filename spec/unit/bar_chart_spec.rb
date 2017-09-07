@@ -1,10 +1,12 @@
+require 'spec_helper'
+
 module ActiveCharts
   RSpec.describe BarChart do
-    let(:collection) { [[5, 1], [2, 3]] }
+    let(:collection) { [[5, 1], [2, 3, '0.1']] }
     let(:options) { { title: 'Pets per Floor', columns: ['<b>Floor 1</b>', 'Floor 2'], rows: ['cats', 'dogs'], bar_width: 50, height: 500, label_height: 20, class: 'my-class' } }
     let(:bar_chart_stub) { BarChart.new(collection, {}) }
     let(:bar_chart) { BarChart.new(collection, options) }
-    let(:bar_chart_strings) { BarChart.new([['a', 5, 1], ['b', 2, 3]], {}) }
+    let(:rect_tag) { %(<rect height="460" width="460" class="grid" />) }
     
     it '#title returns title from options or empty string' do
       expect(bar_chart_stub.title).to eql('')
@@ -46,7 +48,7 @@ module ActiveCharts
     end
     
     it '#columns_count returns number of columns in collection' do
-      expect(bar_chart.columns_count).to eql(2)
+      expect(bar_chart.columns_count).to eql(3)
     end
     
     it '#rows_count returns number of rows in collection' do
@@ -54,16 +56,11 @@ module ActiveCharts
     end
     
     it '#bars_count returns number of bars in chart' do
-      expect(bar_chart.bars_count).to eql(4)
-    end
-    
-    it '#max_values returns array of max values per column' do
-      expect(bar_chart.max_values).to eql([5, 3])
-      expect(bar_chart_strings.max_values).to eql([0.0, 5.0, 3.0])
+      expect(bar_chart.bars_count).to eql(6)
     end
     
     it '#svg_width returns calculated chart width' do
-      expect(bar_chart.svg_width).to eql(320)
+      expect(bar_chart.svg_width).to eql(460)
     end
 
     it '#grid_height returns svg_height offset by label_height' do
@@ -73,12 +70,32 @@ module ActiveCharts
     it '#max_bar_height returns grid_height offset by label_height' do
       expect(bar_chart.max_bar_height).to eql(400)
     end
-      
+
+    it '#grid_rect_tag' do
+      expect(bar_chart.grid_rect_tag).to eql(rect_tag)
+    end
+    
+    it '#x_offset' do
+      expect(bar_chart.x_offset).to eql(25)
+    end
+    
+    it '#y_offset' do
+      expect(bar_chart.y_offset).to eql(10)
+    end
+    
+    it '#section_width' do
+      expect(bar_chart.section_width).to eql(230)
+    end
+    
+    it '#y_multipliers' do
+      expect(bar_chart.y_multipliers).to eql([80.0, 133.333333, 4000.0])
+    end
+    
     it '#chart_svg_tag returns <svg> chart' do
       chart_svg_tag = bar_chart.chart_svg_tag
       
-      expect(chart_svg_tag).to include(%(<svg xmlns="http://www.w3.org/2000/svg" style="width: 320px; height: 500px;" viewBox="0 0 320 500" class="ac-chart ac-bar-chart">))
-      expect(chart_svg_tag).to include(%(<rect height="460" width="320" class="grid" />))
+      expect(chart_svg_tag).to include(%(<svg xmlns="http://www.w3.org/2000/svg" style="width: 460px; height: 500px;" viewBox="0 0 460 500" class="ac-chart ac-bar-chart">))
+      expect(chart_svg_tag).to include(rect_tag)
       expect(chart_svg_tag).to include(%(</svg>))
     end
 
@@ -93,7 +110,7 @@ module ActiveCharts
     
     it '#bars returns array of <rect> and <text> tags' do
       bars = bar_chart.bars
-      expect(bars.count).to eq(4)
+      expect(bars.count).to eq(5)
       
       bars.each do |bar|
         expect(bar.first).to include(%(<rect))
@@ -102,7 +119,7 @@ module ActiveCharts
     end
     
     it '#bottom_label_text_tags' do
-      expect(bar_chart.bottom_label_text_tags).to eq(%(<text x="80.0" y="490.0">cats</text><text x="240.0" y="490.0">dogs</text>))
+      expect(bar_chart.bottom_label_text_tags).to eq(%(<text x="115.0" y="490.0">cats</text><text x="345.0" y="490.0">dogs</text>))
     end
   end
 end

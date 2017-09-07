@@ -11,12 +11,13 @@ module ActiveCharts
     include ActionView::Helpers::TagHelper
     
     def initialize(collection, options = {})
-      @collection = collection
+      @collection = Util.array_of_arrays?(collection) ? collection : [[]]
       @title = options[:title] || ''
       @extra_css_classes = options[:class] || ''
+      @max_values = Util.max_values(@collection)
     end
     
-    attr_reader :collection, :title, :extra_css_classes
+    attr_reader :collection, :title, :extra_css_classes, :max_values
     
     def to_html
       inner_html = [tag.figcaption(title, class: 'ac-chart-title'), chart_svg_tag, legend_list_tag].join('
@@ -26,6 +27,8 @@ module ActiveCharts
     end
       
     def chart_svg_tag; end
+    
+    def legend_list_tag; end
     
     private
         

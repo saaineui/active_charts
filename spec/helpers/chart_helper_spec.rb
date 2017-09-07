@@ -23,6 +23,24 @@ module ActiveCharts
           <text x="70.0" y="405.0">cats</text><text x="210.0" y="405.0">dogs</text></svg>
           <ul class="ac-chart ac-series-legend"><li class="series-a">Floor 1</li><li class="series-b">Floor 2</li></ul></figure>))
         end
+        
+        it 'handles empty array' do
+          expect(bar_chart([])).to eq(%(<figure class="ac-chart-container ac-clearfix "><figcaption class="ac-chart-title"></figcaption>
+          <svg xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: 400px;" viewBox="0 0 20 400" class="ac-chart ac-bar-chart"><rect height="380" width="20" class="grid" />
+          </svg>
+          <ul class="ac-chart ac-series-legend"></ul></figure>))
+          expect(bar_chart([[]])).to eq(%(<figure class="ac-chart-container ac-clearfix "><figcaption class="ac-chart-title"></figcaption>
+          <svg xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: 400px;" viewBox="0 0 20 400" class="ac-chart ac-bar-chart"><rect height="380" width="20" class="grid" />
+          </svg>
+          <ul class="ac-chart ac-series-legend"></ul></figure>))
+        end
+        
+        it 'handles non-array' do
+          expect(bar_chart(1)).to eq(%(<figure class="ac-chart-container ac-clearfix "><figcaption class="ac-chart-title"></figcaption>
+          <svg xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: 400px;" viewBox="0 0 20 400" class="ac-chart ac-bar-chart"><rect height="380" width="20" class="grid" />
+          </svg>
+          <ul class="ac-chart ac-series-legend"></ul></figure>))
+        end
       end
     end
   end
