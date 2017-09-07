@@ -6,6 +6,7 @@ module ActiveCharts
     
     MARGIN = 20
     DEFAULT_BAR_WIDTH = 40
+    NUDGE = 5
     CSS_CLASSES = %w[a b c d e f].map { |letter| 'series-' + letter }.freeze
     
     def initialize(collection, options = {})
@@ -91,8 +92,8 @@ module ActiveCharts
       x_offset = bar_width / 2
 
       bars_specs.flatten.map do |bar| 
-        ["<rect height=#{bar[:height]} x=#{bar[:x]} y=#{bar[:y]} class=\"ac-bar-chart-bar #{series_class(bar[:col])}\" />",
-         "<text x=#{bar[:x] + x_offset} y=#{bar[:y] - label_height}>",
+        ["<rect width=#{bar_width} height=#{bar[:height]} x=#{bar[:x]} y=#{bar[:y]} class=\"ac-bar-chart-bar #{series_class(bar[:col])}\" />",
+         "<text x=#{bar[:x] + x_offset} y=#{bar[:y] - label_height + NUDGE}>",
          number_with_delimiter(bar[:val]),
          '</text>']
       end

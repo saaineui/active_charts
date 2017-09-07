@@ -14,20 +14,20 @@ module ActiveCharts
           <figcaption class="ac-chart-title">Pets per Floor</figcaption>
           <svg xmlns="http://www.w3.org/2000/svg" style="width: 280px; height: 410px;" viewBox="0 0 280 410" class="ac-chart ac-bar-chart">
           <rect height=390 width=280 class="grid" />
-          <rect height=360.0 x=20 y=30.0 class="ac-bar-chart-bar series-a" />
-          <text x=40 y=20.0>
+          <rect width=40 height=360.0 x=20 y=30.0 class="ac-bar-chart-bar series-a" />
+          <text x=40 y=25.0>
           5
           </text>
-          <rect height=120.0 x=80 y=270.0 class="ac-bar-chart-bar series-b" />
-          <text x=100 y=260.0>
+          <rect width=40 height=120.0 x=80 y=270.0 class="ac-bar-chart-bar series-b" />
+          <text x=100 y=265.0>
           1
           </text>
-          <rect height=144.0 x=160 y=246.0 class="ac-bar-chart-bar series-a" />
-          <text x=180 y=236.0>
+          <rect width=40 height=144.0 x=160 y=246.0 class="ac-bar-chart-bar series-a" />
+          <text x=180 y=241.0>
           2
           </text>
-          <rect height=360.0 x=220 y=30.0 class="ac-bar-chart-bar series-b" />
-          <text x=240 y=20.0>
+          <rect width=40 height=360.0 x=220 y=30.0 class="ac-bar-chart-bar series-b" />
+          <text x=240 y=25.0>
           3
           </text>
           <text x=70.0 y=405.0>cats</text><text x=210.0 y=405.0>dogs</text>
