@@ -1,9 +1,10 @@
 module ActiveCharts
   RSpec.describe BarChart do
-    let(:collection) { [['cats', 5, 1], ['dogs', 2, 3]] }
-    let(:options) { { title: 'Pets per Floor', columns: ['Floor 1', 'Floor 2'], contains_label: true, bar_width: 50, height: 500, label_height: 20, class: 'my-class' } }
+    let(:collection) { [[5, 1], [2, 3]] }
+    let(:options) { { title: 'Pets per Floor', columns: ['<b>Floor 1</b>', 'Floor 2'], rows: ['cats', 'dogs'], bar_width: 50, height: 500, label_height: 20, class: 'my-class' } }
     let(:bar_chart_stub) { BarChart.new(collection, {}) }
     let(:bar_chart) { BarChart.new(collection, options) }
+    let(:bar_chart_strings) { BarChart.new([['a', 5, 1], ['b', 2, 3]], {}) }
     
     it '#title returns title from options or empty string' do
       expect(bar_chart_stub.title).to eql('')
@@ -11,22 +12,12 @@ module ActiveCharts
     end
     
     it '#series_class returns a valid series css class name' do
-      expect(bar_chart.series_class(1)).to eql('series-b')
-      expect(bar_chart.series_class(11)).to eql('series-f')
+      expect(bar_chart.send(:series_class, 1)).to eql('series-b')
+      expect(bar_chart.send(:series_class, 11)).to eql('series-f')
     end
     
-    describe '#collection' do
-      context 'when contains_label is true' do
-        it 'returns collection stripped of first item in each row' do
-          expect(bar_chart.collection).to eql([[5, 1], [2, 3]])
-        end
-      end
-
-      context 'when contains_label is missing' do
-        it 'returns collection' do
-          expect(bar_chart_stub.collection).to eql(collection)
-        end
-      end
+    it '#collection returns collection' do
+      expect(bar_chart_stub.collection).to eql(collection)
     end
     
     it '#x_labels returns array of row labels, if any' do
@@ -68,7 +59,7 @@ module ActiveCharts
     
     it '#max_values returns array of max values per column' do
       expect(bar_chart.max_values).to eql([5, 3])
-      expect(bar_chart_stub.max_values).to eql([0.0, 5.0, 3.0])
+      expect(bar_chart_strings.max_values).to eql([0.0, 5.0, 3.0])
     end
     
     it '#svg_width returns calculated chart width' do
@@ -83,31 +74,35 @@ module ActiveCharts
       expect(bar_chart.max_bar_height).to eql(400)
     end
       
-    it '#figure_open_tag returns <figure> and <figcaption>title</figcaption>' do
-      expect(bar_chart.figure_open_tag).to eq(%(<figure class="ac-chart-container ac-clearfix my-class">
-          <figcaption class="ac-chart-title">Pets per Floor</figcaption>))
-    end
-
-    it '#svg_open_tag returns <svg> and grid <rect />' do
-      expect(bar_chart.svg_open_tag).to eq(%(<svg xmlns="http://www.w3.org/2000/svg" style="width: 320px; height: 500px;" viewBox="0 0 320 500" class="ac-chart ac-bar-chart">
-          <rect height=460 width=320 class="grid" />))
+    it '#chart_svg_tag returns <svg> chart' do
+      chart_svg_tag = bar_chart.chart_svg_tag
+      
+      expect(chart_svg_tag).to include(%(<svg xmlns="http://www.w3.org/2000/svg" style="width: 320px; height: 500px;" viewBox="0 0 320 500" class="ac-chart ac-bar-chart">))
+      expect(chart_svg_tag).to include(%(<rect height="460" width="320" class="grid" />))
+      expect(chart_svg_tag).to include(%(</svg>))
     end
 
     it '#legend_list_tag returns <ul> and <li> legend' do
-      expect(bar_chart.legend_list_tag).to eq(%(<ul class="ac-chart ac-series-legend"><li class="series-a">Floor 1</li><li class="series-b">Floor 2</li></ul>))
+      expect(bar_chart.legend_list_tag).to eq(%(<ul class="ac-chart ac-series-legend"><li class="series-a">&lt;b&gt;Floor 1&lt;/b&gt;</li><li class="series-b">Floor 2</li></ul>))
     end
 
     it '#bars_specs' do
-      expect(bar_chart.bars_specs.first).to eq([{:height=>400.0, :x=>20, :y=>60.0, :col=>0, :val=>5}, 
-                                                {:height=>133.333333, :x=>90, :y=>326.666667, :col=>1, :val=>1}])
+      expect(bar_chart.bars_specs.first).to eq([{:height=>400.0, :x=>20, :y=>60.0, :class=>"ac-bar-chart-bar series-a", :val=>5}, 
+                                                {:height=>133.333333, :x=>90, :y=>326.666667, :class=>"ac-bar-chart-bar series-b", :val=>1}])
     end
     
     it '#bars returns array of <rect> and <text> tags' do
-      expect(bar_chart.bars.count).to eq(4)
+      bars = bar_chart.bars
+      expect(bars.count).to eq(4)
+      
+      bars.each do |bar|
+        expect(bar.first).to include(%(<rect))
+        expect(bar.last).to include(%(<text))
+      end
     end
     
     it '#bottom_label_text_tags' do
-      expect(bar_chart.bottom_label_text_tags).to eq(%(<text x=80.0 y=490.0>cats</text><text x=240.0 y=490.0>dogs</text>))
+      expect(bar_chart.bottom_label_text_tags).to eq(%(<text x="80.0" y="490.0">cats</text><text x="240.0" y="490.0">dogs</text>))
     end
   end
 end
