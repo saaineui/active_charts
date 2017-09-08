@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'mocks/pet'
+require 'mocks/pet_collection'
 
 module ActiveCharts
   module Helpers 
@@ -7,7 +8,7 @@ module ActiveCharts
       include ChartHelper
 
       let(:collection) { [[5, 1], [2, 3]] }
-      let(:resource_collection) { [Pet.new('cats', 5, 1), Pet.new('dogs', 2, 3)] }
+      let(:resource_collection) { PetCollection.new }
       
       let(:options) { { title: 'Pets per Floor', rows: ['cats', 'dogs'], columns: ['Floor 1', 'Floor 2'], height: 410 } }
       let(:spare_options) { { title: options[:title], height: options[:height] } }

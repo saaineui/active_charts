@@ -35,5 +35,9 @@ module ActiveCharts
           
           </figure>))
     end
+    
+    it '#formatted_val returns value formatted by specified type' do
+      expect(chart.send(:formatted_val, 0.12345, :percent)).to eq('12.345%')
+    end
   end
 end

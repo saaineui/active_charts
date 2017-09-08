@@ -15,9 +15,10 @@ module ActiveCharts
       @title = options[:title] || ''
       @extra_css_classes = options[:class] || ''
       @max_values = Util.max_values(@collection)
+      @data_formatters = options[:data_formatters] || []
     end
     
-    attr_reader :collection, :title, :extra_css_classes, :max_values
+    attr_reader :collection, :title, :extra_css_classes, :max_values, :data_formatters
     
     def to_html
       inner_html = [tag.figcaption(title, class: 'ac-chart-title'), chart_svg_tag, legend_list_tag].join('
@@ -40,6 +41,19 @@ module ActiveCharts
       opts = opts.select { |k, _v| whitelist.include? k.to_s } if whitelist
       tag_builder = TagBuilder.new(self)
       opts.map { |k, v| tag_builder.tag_option(k, v, true) }.join(' ')
+    end
+    
+    def formatted_val(val, formatter)
+      case formatter
+      when :percent
+        number_to_percentage(Util.safe_to_dec(val) * 100)
+      when :date
+        val.strftime('%F')
+      when :rounded
+        Util.safe_to_dec(val).round
+      else
+        number_with_delimiter(val)
+      end
     end
   end
 end

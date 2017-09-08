@@ -16,7 +16,7 @@ module ActiveCharts
       height_calcs
     end
     
-    attr_reader :x_labels, :series_labels, :bar_width, :svg_height, :label_height, 
+    attr_reader :x_labels, :series_labels, :bar_width, :svg_height, :label_height,
                 :rows_count, :columns_count, :bars_count, :x_offset, :y_offset,
                 :svg_width, :section_width, :grid_height, :max_bar_height, :max_values, :y_multipliers
     
@@ -51,7 +51,7 @@ module ActiveCharts
       
       bars_specs.flatten.map do |bar| 
         [%(<rect #{options(bar.merge(width: bar_width), whitelist)} />),
-         tag.text(number_with_delimiter(bar[:val]), x: bar[:x] + x_offset, y: bar[:y] - y_offset)]
+         tag.text(formatted_val(bar[:val], bar[:formatter]), x: bar[:x] + x_offset, y: bar[:y] - y_offset)]
       end
     end
 
@@ -62,16 +62,15 @@ module ActiveCharts
           x = bar_x(col_index, row_index)
           y = grid_height - height
 
-          { height: height, x: x, y: y, class: bar_classes(col_index), val: cell }
+          { height: height, x: x, y: y, class: bar_classes(col_index), val: cell, 
+            formatter: data_formatters[col_index] }
         end
       end
     end
     
     def bottom_label_text_tags
-      offset = section_width / 2
-      
       x_labels.map.with_index do |label, index| 
-        tag.text(label, x: section_width * index + offset, y: grid_height + label_height * 1.5)
+        tag.text(label, x: section_width * (index + 0.5), y: grid_height + label_height * 1.5)
       end.join
     end
 
@@ -86,9 +85,13 @@ module ActiveCharts
     end
     
     def width_calcs
-      @svg_width = (bar_width * bars_count) + (rows_count * MARGIN * (1 + columns_count))
+      @svg_width = compute_svg_width
       @section_width = rows_count.zero? ? svg_width : svg_width / rows_count.to_d
       @x_offset = bar_width / 2
+    end
+    
+    def compute_svg_width
+      (bar_width * bars_count) + (rows_count * MARGIN * (1 + columns_count))
     end
     
     def height_calcs

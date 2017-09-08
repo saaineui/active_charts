@@ -11,4 +11,13 @@ class Pet
   def attribute_names
     %w[name floor_1 floor_2]
   end
+  
+  def self.pluck(*columns)
+    case columns
+    when %i[name]
+      ['cats', 'dogs']
+    when %i[floor_1 floor_2]
+      [[5, 1], [2, 3]]
+    end
+  end
 end
