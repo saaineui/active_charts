@@ -34,6 +34,25 @@ module ActiveCharts
       width * y + x
     end
     
-    module_function :max_values, :array_of_arrays?, :multiplier, :safe_to_dec, :grid_index
+    def valid_columns(resource, columns)
+      attribute_names = resource.new.attribute_names.map(&:to_sym) 
+      
+      return attribute_names if columns.eql?([])
+      
+      attribute_names & columns
+    end
+    
+    def label_column(resource)
+      attribute_names = resource.new.attribute_names
+      
+      %w[name title id].each do |attribute_name|
+        return attribute_name.to_sym if attribute_names.include?(attribute_name)
+      end
+      
+      attribute_names.first.to_sym
+    end
+    
+    module_function :max_values, :array_of_arrays?, :multiplier, :safe_to_dec, :grid_index, 
+                    :valid_columns, :label_column
   end
 end

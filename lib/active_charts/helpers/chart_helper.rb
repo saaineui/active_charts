@@ -12,8 +12,21 @@ module ActiveCharts
         chart.to_html
       end
       
-      # def bar_chart_for(resource, columns)
-      # end
+      def bar_chart_for(resource_collection, columns = [], options = {})
+        resource = resource_collection.first.class
+        columns = Util.valid_columns(resource, columns)
+        label_column = options[:label_column] || Util.label_column(resource)
+        
+        collection = resource_collection.map do |record| 
+          columns.map{ |column| record.send(column) }
+        end
+        rows = resource_collection.map { |record| record.send(label_column) }
+        columns = columns.map(&:to_s).map(&:titleize)
+        
+        bar_chart(collection, options.merge({ columns: columns, rows: rows }))
+      rescue
+        nil
+      end
     end
   end
 end

@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'mocks/pet'
 
 module ActiveCharts
   RSpec.describe Util do
@@ -26,6 +27,14 @@ module ActiveCharts
     it '::grid_index returns item index for 2x2 matrix' do
       expect(Util.grid_index(3, 1, 2)).to eql(7)
       expect(Util.grid_index(3, 0, 1)).to eql(3)
+    end
+    
+    it '::valid_columns' do
+      expect(Util.valid_columns(Pet, [:floor_1])).to eql([:floor_1])
+    end
+    
+    it '::label_column' do
+      expect(Util.label_column(Pet)).to eql(:name)
     end
   end
 end
