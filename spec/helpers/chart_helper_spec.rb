@@ -8,7 +8,8 @@ module ActiveCharts
       include ChartHelper
 
       let(:collection) { [[5, 1], [2, 3]] }
-      let(:resource_collection) { PetCollection.new }
+      let(:pets) { PetCollection.new(Pet.new('cats', 5, 1), Pet.new('dogs', 2, 3)) }
+      let(:empty_pets) { PetCollection.new([]) }
       
       let(:options) { { title: 'Pets per Floor', rows: ['cats', 'dogs'], columns: ['Floor 1', 'Floor 2'], height: 410 } }
       let(:spare_options) { { title: options[:title], height: options[:height] } }
@@ -47,8 +48,16 @@ module ActiveCharts
         
       describe '::bar_chart_for' do
         it 'returns a <figure>, <figcaption>, <svg> chart and <ul> legend' do
-          expect(bar_chart_for(resource_collection, [:floor_1, :floor_2], spare_options)).to eq(chart)
-          expect(bar_chart_for(resource_collection)).to_not be(nil)
+          expect(bar_chart_for(pets, [:floor_1, :floor_2], spare_options)).to eq(chart)
+          expect(bar_chart_for(pets)).to_not be(nil)
+        end
+        
+        it 'handles empty collection' do
+          expect(bar_chart_for(empty_pets)).to eq(empty_chart)
+        end
+        
+        it 'handles non-collection' do
+          expect(bar_chart(1)).to eq(empty_chart)
         end
       end
     end

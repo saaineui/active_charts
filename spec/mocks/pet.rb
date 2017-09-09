@@ -1,5 +1,8 @@
 # Mock ApplicationRecord for testing _chart_for helpers
-class Pet
+class ApplicationRecord
+end
+
+class Pet < ApplicationRecord
   def initialize(name = nil, floor_1 = nil, floor_2 = nil)
     @name = name
     @floor_1 = floor_1

@@ -4,7 +4,9 @@ module ActiveCharts
     def max_values(array_of_arrays)
       return [] unless array_of_arrays?(array_of_arrays)
       
-      maxes = array_of_arrays.first.map { |cell| safe_to_dec(cell) }
+      maxes = array_of_arrays.first.map do |cell| 
+        safe_to_dec(cell) <= 0 ? 1 : safe_to_dec(cell) 
+      end # solves floating 0 labels bug
       
       array_of_arrays[1..-1].each do |row|
         row.map { |cell| safe_to_dec(cell) }
@@ -52,7 +54,11 @@ module ActiveCharts
       attribute_names.first.to_sym
     end
     
+    def valid_collection?(item)
+      item.respond_to?(:first) && item.first.class.superclass.eql?(ApplicationRecord)
+    end
+    
     module_function :max_values, :array_of_arrays?, :multiplier, :safe_to_dec, :grid_index, 
-                    :valid_columns, :label_column
+                    :valid_columns, :label_column, :valid_collection?
   end
 end

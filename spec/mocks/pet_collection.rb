@@ -1,7 +1,17 @@
 # Mock Resource Collection for testing _chart_for helpers
 class PetCollection
+  def initialize(*pets)
+    @pets = pets
+  end
+  
+  attr_reader :pets
+  
   def all
-    [Pet.new('cats', 5, 1), Pet.new('dogs', 2, 3)]
+    pets
+  end
+  
+  def count
+    pets.count
   end
   
   def first

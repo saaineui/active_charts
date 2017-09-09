@@ -7,18 +7,15 @@ module ActiveCharts
     def initialize(collection, options = {})
       super
       
-      @rows_count = @collection.count
-      @columns_count = @collection.map(&:count).max
       @bars_count = columns_count * rows_count
       
-      process_options(options)
       width_calcs
       height_calcs
     end
     
     attr_reader :x_labels, :series_labels, :bar_width, :svg_height, :label_height,
-                :rows_count, :columns_count, :bars_count, :x_offset, :y_offset,
-                :svg_width, :section_width, :grid_height, :max_bar_height, :max_values, :y_multipliers
+                :bars_count, :x_offset, :y_offset, :svg_width, :section_width, 
+                :grid_height, :max_bar_height, :max_values, :y_multipliers
     
     def chart_svg_tag
       opts = { 
@@ -35,7 +32,7 @@ module ActiveCharts
     end
     
     def grid_rect_tag
-      %(<rect #{options(height: grid_height, width: svg_width, class: 'grid')} />)
+      %(<rect #{tag_options(height: grid_height, width: svg_width, class: 'grid')} />)
     end
     
     def legend_list_tag
@@ -50,7 +47,7 @@ module ActiveCharts
       whitelist = %w[width height x y class]
       
       bars_specs.flatten.map do |bar| 
-        [%(<rect #{options(bar.merge(width: bar_width), whitelist)} />),
+        [%(<rect #{tag_options(bar.merge(width: bar_width), whitelist)} />),
          tag.text(formatted_val(bar[:val], bar[:formatter]), x: bar[:x] + x_offset, y: bar[:y] - y_offset)]
       end
     end
@@ -77,6 +74,8 @@ module ActiveCharts
     private
 
     def process_options(options)
+      super
+      
       @bar_width = options[:bar_width] || DEFAULT_BAR_WIDTH
       @series_labels = options[:columns] || []
       @x_labels = options[:rows] || []

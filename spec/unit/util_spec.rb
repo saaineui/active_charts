@@ -1,10 +1,19 @@
 require 'spec_helper'
 require 'mocks/pet'
+require 'mocks/pet_collection'
 
 module ActiveCharts
   RSpec.describe Util do
+    let(:pets) { PetCollection.new(Pet.new(1)) }
+    
     it '::max_values returns array of max values at each index' do
       expect(Util.max_values([[10, -1], [3, 1, 2]])).to eql([10, 1, 2])
+    end
+    
+    it '::max_values will always return positive values' do
+      expect(Util.max_values([[-1], [0]])).to eql([1])
+      expect(Util.max_values([[0.0], [0]])).to eql([1])
+      expect(Util.max_values([[0.1], [0]])).to eql([0.1])
     end
     
     it '::array_of_arrays? returns true if item is an array of arrays' do
@@ -27,6 +36,12 @@ module ActiveCharts
     it '::grid_index returns item index for 2x2 matrix' do
       expect(Util.grid_index(3, 1, 2)).to eql(7)
       expect(Util.grid_index(3, 0, 1)).to eql(3)
+    end
+    
+    it '::valid_collection? returns true if it is valid for #bar_chart_for' do
+      expect(Util.valid_collection?(pets)).to be(true)
+      expect(Util.valid_collection?(1)).to be(false)
+      expect(Util.valid_collection?([])).to be(false)
     end
     
     it '::valid_columns' do
