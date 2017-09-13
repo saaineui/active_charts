@@ -54,10 +54,12 @@ module ActiveCharts
         
         it 'handles empty collection' do
           expect(bar_chart_for(empty_pets)).to eq(empty_chart)
+          expect(bar_chart_for(empty_pets, [], options)).to include(%(<figcaption class="ac-chart-title">Pets per Floor</figcaption>))
         end
         
         it 'handles non-collection' do
           expect(bar_chart(1)).to eq(empty_chart)
+          expect(bar_chart_for(1, [], options)).to include(%(<figcaption class="ac-chart-title">Pets per Floor</figcaption>))
         end
       end
     end

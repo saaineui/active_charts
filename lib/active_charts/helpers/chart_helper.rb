@@ -11,7 +11,7 @@ module ActiveCharts
       end
       
       def bar_chart_for(resource_collection, columns = [], options = {})
-        return bar_chart([]) unless Util.valid_collection?(resource_collection)
+        return bar_chart([[]], options) unless Util.valid_collection?(resource_collection)
         
         resource = resource_collection.first.class
         columns = Util.valid_columns(resource, columns)
