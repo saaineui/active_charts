@@ -38,6 +38,27 @@ module ActiveCharts
       expect(Util.grid_index(3, 0, 1)).to eql(3)
     end
     
+    it '::scaled_position returns position of n on line ab of scale_length' do
+      expect(Util.scaled_position(13, 0, 50, 315) - 81.9).to be < 0.001
+      expect(Util.scaled_position(0.333, -1, 1, 400)).to eql(266.60000000000001)
+    end
+    
+    it '::scale returns scale min, max, and interval for min and max range' do
+      expect(Util.scale(10, 66)).to eql([0, 70, 10])
+      expect(Util.scale(0, 1)).to eql([0, 1.5, 0.5])
+      expect(Util.scale(101, 110)).to eql([100, 111, 1])
+      expect(Util.scale(-300.8, 90010)).to eql([-10000, 100000, 10000])
+      expect(Util.scale(1, 0)).to eql([0, 1, 1]) 
+    end
+    
+    it '::scale_interval returns scale interval for min and max range' do
+      expect(Util.scale_interval(10, 66)).to eql(10)
+      expect(Util.scale_interval(0, 1)).to eql(0.5)
+      expect(Util.scale_interval(101, 110)).to eql(1)
+      expect(Util.scale_interval(-300.8, 90010)).to eql(10000)
+      expect(Util.scale_interval(1, 0)).to eql(0.5)
+    end
+    
     it '::valid_collection? returns true if it is valid for #bar_chart_for' do
       expect(Util.valid_collection?(pets)).to be(true)
       expect(Util.valid_collection?(1)).to be(false)

@@ -10,6 +10,7 @@ module ActiveCharts
     include ActionView::Helpers::OutputSafetyHelper
     include ActionView::Helpers::TagHelper
 
+    MARGIN = 20
     CSS_CLASSES = %w[a b c d e f g h i j k l m n o].map { |letter| 'series-' + letter }.freeze
     
     def initialize(collection, options = {})
@@ -20,7 +21,7 @@ module ActiveCharts
     end
     
     attr_reader :collection, :rows_count, :columns_count, :title, :extra_css_classes, 
-                :max_values, :data_formatters
+                :max_values, :data_formatters, :label_height
     
     def to_html
       inner_html = [tag.figcaption(title, class: 'ac-chart-title'), chart_svg_tag, legend_list_tag].join('
@@ -40,6 +41,7 @@ module ActiveCharts
       @extra_css_classes = options[:class] || ''
       @data_formatters = options[:data_formatters] || []
       @max_values = valid_max_values(options[:max_values], options[:single_y_scale])
+      @label_height = options[:label_height] || MARGIN / 2
     end
     
     def valid_max_values(custom_max_values = nil, single_y_scale = false)

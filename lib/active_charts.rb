@@ -1,7 +1,9 @@
 require 'rails'
 require 'active_charts/version'
 require 'active_charts/chart'
+require 'active_charts/rectangular_chart'
 require 'active_charts/bar_chart'
+require 'active_charts/scatter_plot'
 require 'active_charts/helpers/chart_helper'
 
 module ActiveCharts

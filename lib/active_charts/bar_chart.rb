@@ -1,20 +1,13 @@
 module ActiveCharts
-  class BarChart < Chart
-    MARGIN = 20
+  class BarChart < RectangularChart
     DEFAULT_BAR_WIDTH = 40
     
     def initialize(collection, options = {})
       super
-      
-      @bars_count = columns_count * rows_count
-      
-      width_calcs
-      height_calcs
     end
     
-    attr_reader :x_labels, :series_labels, :bar_width, :svg_height, :label_height,
-                :bars_count, :x_offset, :y_offset, :svg_width, :section_width, 
-                :grid_height, :max_bar_height, :max_values, :y_multipliers
+    attr_reader :x_labels, :series_labels, :bar_width, :bars_count, :x_offset, :y_offset, 
+                :section_width, :max_bar_height, :max_values, :y_multipliers
     
     def chart_svg_tag
       opts = { 
@@ -28,10 +21,6 @@ module ActiveCharts
           ')
       
       tag.svg(inner_html.html_safe, opts)
-    end
-    
-    def grid_rect_tag
-      %(<rect #{tag_options(height: grid_height, width: svg_width, class: 'grid')} />)
     end
     
     def legend_list_tag
@@ -79,11 +68,15 @@ module ActiveCharts
       @series_labels = options[:columns] || []
       @x_labels = options[:rows] || []
       @svg_height = options[:height] || DEFAULT_BAR_WIDTH * 10
-      @label_height = options[:label_height] || MARGIN / 2
+    end
+    
+    def count_calcs
+      @bars_count = columns_count * rows_count
     end
     
     def width_calcs
       @svg_width = compute_svg_width
+      @grid_width = svg_width
       @section_width = rows_count.zero? ? svg_width : svg_width / rows_count.to_d
       @x_offset = bar_width / 2
     end

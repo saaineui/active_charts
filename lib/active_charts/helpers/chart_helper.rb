@@ -6,8 +6,7 @@ module ActiveCharts
     # Provides methods to generate HTML and SVG charts programmatically.
     module ChartHelper
       def bar_chart(collection, options = {})
-        chart = BarChart.new(collection, options)
-        chart.to_html
+        BarChart.new(collection, options).to_html
       end
       
       def bar_chart_for(resource_collection, columns = [], options = {})
@@ -22,6 +21,10 @@ module ActiveCharts
         columns = columns.map(&:to_s).map(&:titleize)
         
         bar_chart(collection, options.merge(columns: columns, rows: rows))
+      end
+
+      def scatter_plot(collection, options = {})
+        ScatterPlot.new(collection, options).to_html
       end
     end
   end

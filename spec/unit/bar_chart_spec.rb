@@ -27,11 +27,6 @@ module ActiveCharts
       expect(bar_chart.series_labels).to eql(options[:columns])
     end
     
-    it '#data_formatters returns array of formatter types of size column_count' do
-      expect(bar_chart.data_formatters).to eql(%i[delimiter percent rounded])
-      expect(bar_chart_stub.data_formatters).to eql([])
-    end
-    
     it '#bar_width returns options value or 40' do
       expect(bar_chart.bar_width).to eql(50)
       expect(bar_chart_stub.bar_width).to eql(40)
@@ -40,11 +35,6 @@ module ActiveCharts
     it '#svg_height returns options value or 400' do
       expect(bar_chart.svg_height).to eql(500)
       expect(bar_chart_stub.svg_height).to eql(400)
-    end
-    
-    it '#label_height returns options value or 10' do
-      expect(bar_chart.label_height).to eql(20)
-      expect(bar_chart_stub.label_height).to eql(10)
     end
     
     it '#columns_count returns number of columns in collection' do

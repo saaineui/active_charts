@@ -4,9 +4,7 @@ module ActiveCharts
     def max_values(array_of_arrays)
       return [] unless array_of_arrays?(array_of_arrays)
       
-      maxes = array_of_arrays.first.map do |cell| 
-        safe_to_dec(cell) <= 0 ? 1 : safe_to_dec(cell) 
-      end # solves floating 0 labels bug
+      maxes = initialize_maxes(array_of_arrays.first)
       
       array_of_arrays[1..-1].each do |row|
         row.map { |cell| safe_to_dec(cell) }
@@ -20,6 +18,12 @@ module ActiveCharts
     
     def array_of_arrays?(item)
       item.is_a?(Array) && !item.empty? && item.all? { |row| row.is_a?(Array) }
+    end
+    
+    def initialize_maxes(row)
+      row.map do |cell| 
+        safe_to_dec(cell) <= 0 ? 1 : safe_to_dec(cell) 
+      end # solves floating 0 labels bug
     end
     
     def multiplier(data_value, pixels, precision = 6)
@@ -36,6 +40,40 @@ module ActiveCharts
       width * y + x
     end
     
+    def scaled_position(n, a, b, scale_length)
+      multiplier = scale_length.to_d / (b - a)
+      
+      (n - a) * multiplier
+    end
+    
+    def scale(min, max)
+      return [0, 1, 1] unless valid_max_min?(min, max)
+      
+      step = scale_interval(min, max)
+      
+      a = min.zero? ? 0 : ((min.to_d / step).to_i - 1) * step
+      b = max.zero? ? 0 : ((max.to_d / step).to_i + 1) * step
+      
+      [a, b, step]
+    end
+    
+    def scale_interval(min, max)
+      diff = (max - min).abs
+      
+      case diff
+      when 0..2
+        0.5
+      when 3..10
+        1
+      else
+        10**Math.log(diff, 10).to_i
+      end
+    end
+    
+    def valid_max_min?(min, max)
+      [min, max].all? { |n| n.class.superclass.eql?(Numeric) } && max > min
+    end
+
     def valid_columns(resource, columns)
       attribute_names = resource.new.attribute_names.map(&:to_sym) 
       
@@ -58,7 +96,10 @@ module ActiveCharts
       item.respond_to?(:first) && item.first.class.superclass.eql?(ApplicationRecord)
     end
     
-    module_function :max_values, :array_of_arrays?, :multiplier, :safe_to_dec, :grid_index, 
+    module_function :max_values, :array_of_arrays?, :initialize_maxes, :multiplier, :safe_to_dec, 
+                    :grid_index, :scaled_position, :scale, :scale_interval, :valid_max_min?, 
                     :valid_columns, :label_column, :valid_collection?
   end
+  
+  private_constant :Util
 end

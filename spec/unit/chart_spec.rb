@@ -3,7 +3,7 @@ require 'spec_helper'
 module ActiveCharts
   RSpec.describe Chart do
     let(:collection) { [[3, 1], [3.55, 'zero', 5], ['3.6', -2, 5.0]] }
-    let(:options) { { title: 'Cats per Floor', class: 'my-class', max_values: [5, 6, 5] } }
+    let(:options) { { title: 'Cats per Floor', class: 'my-class', max_values: [5, 6, 5], label_height: 20, data_formatters: %i[delimiter percent rounded] } }
     let(:chart_stub) { Chart.new(collection, {}) }
     let(:chart_no_data) { Chart.new('collection', {}) }
     let(:chart) { Chart.new(collection, options) }
@@ -55,6 +55,16 @@ module ActiveCharts
       expect(chart.to_html).to eql(%(<figure class="ac-chart-container ac-clearfix my-class"><figcaption class="ac-chart-title">Cats per Floor</figcaption>
           
           </figure>))
+    end
+    
+    it '#label_height returns options value or 10' do
+      expect(chart.label_height).to eql(20)
+      expect(chart_stub.label_height).to eql(10)
+    end
+    
+    it '#data_formatters returns array of formatter types of size column_count' do
+      expect(chart.data_formatters).to eql(%i[delimiter percent rounded])
+      expect(chart_stub.data_formatters).to eql([])
     end
     
     it '#formatted_val returns value formatted by specified type' do
