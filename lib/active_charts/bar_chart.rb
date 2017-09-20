@@ -20,7 +20,7 @@ module ActiveCharts
     def chart_svg_tag
       opts = { 
         xmlns: 'http://www.w3.org/2000/svg',
-        style: "width: #{svg_width}px; height: #{svg_height}px;",
+        style: "width: #{svg_width}px; height: auto;",
         viewBox: "0 0 #{svg_width} #{svg_height}",
         class: 'ac-chart ac-bar-chart'
       }

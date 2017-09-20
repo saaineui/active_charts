@@ -99,7 +99,7 @@ module ActiveCharts
     it '#chart_svg_tag returns <svg> chart' do
       chart_svg_tag = bar_chart.chart_svg_tag
       
-      expect(chart_svg_tag).to include(%(<svg xmlns="http://www.w3.org/2000/svg" style="width: 460px; height: 500px;" viewBox="0 0 460 500" class="ac-chart ac-bar-chart">))
+      expect(chart_svg_tag).to include(%(<svg xmlns="http://www.w3.org/2000/svg" style="width: 460px; height: auto;" viewBox="0 0 460 500" class="ac-chart ac-bar-chart">))
       expect(chart_svg_tag).to include(rect_tag)
       expect(chart_svg_tag).to include(%(</svg>))
     end
