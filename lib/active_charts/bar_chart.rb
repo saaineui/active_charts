@@ -2,7 +2,6 @@ module ActiveCharts
   class BarChart < Chart
     MARGIN = 20
     DEFAULT_BAR_WIDTH = 40
-    CSS_CLASSES = %w[a b c d e f].map { |letter| 'series-' + letter }.freeze
     
     def initialize(collection, options = {})
       super
@@ -102,10 +101,6 @@ module ActiveCharts
       
     def bar_classes(col)
       ['ac-bar-chart-bar', series_class(col)].join(' ')
-    end
-    
-    def series_class(index)
-      CSS_CLASSES[index % CSS_CLASSES.size]
     end
     
     def bar_x(col, row)

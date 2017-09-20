@@ -13,11 +13,6 @@ module ActiveCharts
       expect(bar_chart.title).to eql(options[:title])
     end
     
-    it '#series_class returns a valid series css class name' do
-      expect(bar_chart.send(:series_class, 1)).to eql('series-b')
-      expect(bar_chart.send(:series_class, 11)).to eql('series-f')
-    end
-    
     it '#collection returns collection' do
       expect(bar_chart_stub.collection).to eql(collection)
     end

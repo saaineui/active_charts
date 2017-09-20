@@ -9,6 +9,8 @@ module ActiveCharts
     include ActionView::Helpers::CaptureHelper
     include ActionView::Helpers::OutputSafetyHelper
     include ActionView::Helpers::TagHelper
+
+    CSS_CLASSES = %w[a b c d e f g h i j k l m n o].map { |letter| 'series-' + letter }.freeze
     
     def initialize(collection, options = {})
       @collection = Util.array_of_arrays?(collection) ? collection : [[]]
@@ -61,6 +63,10 @@ module ActiveCharts
         
     def container_classes
       ['ac-chart-container', 'ac-clearfix', extra_css_classes].join(' ')
+    end
+    
+    def series_class(index)
+      CSS_CLASSES[index % CSS_CLASSES.size]
     end
     
     def tag_options(opts, whitelist = nil)

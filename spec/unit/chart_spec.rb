@@ -14,6 +14,11 @@ module ActiveCharts
       expect(chart.title).to eql(options[:title])
     end
     
+    it '#series_class returns a valid series css class name' do
+      expect(chart_stub.send(:series_class, 1)).to eql('series-b')
+      expect(chart_stub.send(:series_class, 18)).to eql('series-d')
+    end
+    
     it '#extra_css_classes returns class from options or empty string' do
       expect(chart_stub.extra_css_classes).to eql('')
       expect(chart.extra_css_classes).to eql(options[:class])
