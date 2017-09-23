@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'mocks/svg_chart'
 
 module ActiveCharts
   RSpec.describe BarChart do
@@ -6,7 +7,7 @@ module ActiveCharts
     let(:options) { { title: 'Pets per Floor', columns: ['<b>Floor 1</b>', 'Floor 2'], rows: ['cats', 'dogs'], bar_width: 50, height: 500, label_height: 20, class: 'my-class', data_formatters: %i[delimiter percent rounded] } }
     let(:bar_chart_stub) { BarChart.new(collection, {}) }
     let(:bar_chart) { BarChart.new(collection, options) }
-    let(:rect_tag) { %(<rect height="460" width="460" class="grid" />) }
+    let(:rect_tag) { SVGChart.grid_rect_tag(bar_chart.grid_height, bar_chart.grid_width) }
     
     it '#title returns title from options or empty string' do
       expect(bar_chart_stub.title).to eql('')

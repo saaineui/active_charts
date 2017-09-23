@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'mocks/svg_chart'
 
 module ActiveCharts
   RSpec.describe ScatterPlot do
@@ -6,7 +7,7 @@ module ActiveCharts
     let(:options) { { title: 'YoY Sales Growth vs. YoY Marketing Spend', columns: ['Lemonade', 'Cookies'], rows: ['Q1', 'Q2'], width: 700, height: 500, label_height: 20, class: 'my-class' } }
     let(:scatter_stub) { ScatterPlot.new(collection, {}) }
     let(:scatter) { ScatterPlot.new(collection, options) }
-    let(:rect_tag) { %(<rect height="460" width="660" class="grid" />) }
+    let(:rect_tag) { SVGChart.grid_rect_tag(scatter.grid_height, scatter.grid_width) }
     
     it '#title returns title from options or empty string' do
       expect(scatter_stub.title).to eql('')

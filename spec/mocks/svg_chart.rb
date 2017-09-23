@@ -1,7 +1,9 @@
 module SVGChart
+  TOP_LEFT_OFFSET = 1
+  
   def bar_chart
     %(<figure class="ac-chart-container ac-clearfix "><figcaption class="ac-chart-title">Pets per Floor</figcaption>
-          <svg xmlns="http://www.w3.org/2000/svg" style="width: 280px; height: auto;" viewBox="0 0 280 410" class="ac-chart ac-bar-chart"><rect height="390" width="280" class="grid" />
+          <svg xmlns="http://www.w3.org/2000/svg" style="width: 280px; height: auto;" viewBox="0 0 280 410" class="ac-chart ac-bar-chart">#{grid_rect_tag(390, 280)}
           <rect height="360.0" x="20" y="30.0" class="ac-bar-chart-bar series-a" width="40" />
           <text x="40" y="25.0">5</text>
           <rect height="120.0" x="80" y="270.0" class="ac-bar-chart-bar series-b" width="40" />
@@ -16,14 +18,14 @@ module SVGChart
 
   def bar_chart_empty
     %(<figure class="ac-chart-container ac-clearfix "><figcaption class="ac-chart-title"></figcaption>
-          <svg xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: auto;" viewBox="0 0 20 400" class="ac-chart ac-bar-chart"><rect height="380" width="20" class="grid" />
+          <svg xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: auto;" viewBox="0 0 20 400" class="ac-chart ac-bar-chart">#{grid_rect_tag(380, 20)}
           </svg>
           <ul class="ac-chart ac-series-legend"></ul></figure>)
   end
   
   def scatter_plot
     %(<figure class="ac-chart-container ac-clearfix "><figcaption class="ac-chart-title">Pets per Floor</figcaption>
-          <svg xmlns="http://www.w3.org/2000/svg" style="width: 600px; height: auto;" viewBox="0 0 600 410" class="ac-chart ac-scatter-plot"><rect height="390" width="560" class="grid" />
+          <svg xmlns="http://www.w3.org/2000/svg" style="width: 600px; height: auto;" viewBox="0 0 600 410" class="ac-chart ac-scatter-plot">#{grid_rect_tag(390, 560)}
           <circle cx="448.0" cy="292.5" class="ac-scatter-plot-dot series-a" />
           <text x="448.0" y="292.5" class="ac-scatter-plot-label">cats</text>
           <circle cx="336.0" cy="390.0" class="ac-scatter-plot-dot series-b" />
@@ -37,11 +39,16 @@ module SVGChart
   
   def scatter_plot_empty
     %(<figure class="ac-chart-container ac-clearfix "><figcaption class="ac-chart-title"></figcaption>
-          <svg xmlns="http://www.w3.org/2000/svg" style="width: 600px; height: auto;" viewBox="0 0 600 400" class="ac-chart ac-scatter-plot"><rect height="380" width="560" class="grid" />
+          <svg xmlns="http://www.w3.org/2000/svg" style="width: 600px; height: auto;" viewBox="0 0 600 400" class="ac-chart ac-scatter-plot">#{grid_rect_tag(380, 560)}
           <text x="580" y="380.0" class="ac-y-label">0</text><text x="580" y="0.0" class="ac-y-label">1</text>
           <text x="0.0" y="395.0">0</text><text x="560.0" y="395.0">1</text></svg>
           <ul class="ac-chart ac-series-legend"></ul></figure>)
   end
   
-  module_function :bar_chart, :bar_chart_empty, :scatter_plot, :scatter_plot_empty
+  def grid_rect_tag(height, weight)
+    offset = TOP_LEFT_OFFSET * 2
+    %(<rect x="1" y="1" height="#{height - offset}" width="#{weight - offset}" class="grid"></rect>)
+  end
+  
+  module_function :bar_chart, :bar_chart_empty, :scatter_plot, :scatter_plot_empty, :grid_rect_tag
 end
