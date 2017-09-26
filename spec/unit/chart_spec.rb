@@ -54,7 +54,7 @@ module ActiveCharts
     it '#to_html returns <figure> container and <figcaption> title' do
       expect(chart.to_html).to eql(%(<figure class="ac-chart-container ac-clearfix my-class"><figcaption class="ac-chart-title">Cats per Floor</figcaption>
           
-          </figure>))
+          <ul class="ac-chart ac-series-legend"></ul></figure>))
     end
     
     it '#label_height returns options value or 10' do
@@ -68,7 +68,9 @@ module ActiveCharts
     end
     
     it '#formatted_val returns value formatted by specified type' do
-      expect(chart.send(:formatted_val, 0.12345, :percent)).to eq('12.345%')
+      expect(chart.send(:formatted_val, 25125, :currency)).to eq('$25,125')
+      expect(chart.send(:formatted_val, 0.12345, :percent)).to eq('12.3%')
+      expect(chart.send(:formatted_val, Date.new(2017,1,1), :date)).to eq('2017-01-01')
     end
   end
 end

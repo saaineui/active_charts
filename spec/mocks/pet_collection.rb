@@ -15,11 +15,11 @@ class PetCollection
   end
   
   def first
-    all.first
+    pets.first
   end
   
   def pluck(*columns)
-    all.map do |pet|
+    pets.map do |pet|
       if columns.size.eql?(1)
         pet.send(columns.first)
       else

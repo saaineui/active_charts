@@ -4,7 +4,7 @@ require 'mocks/svg_chart'
 module ActiveCharts
   RSpec.describe BarChart do
     let(:collection) { [[5, 1], [2, 3, '0.1']] }
-    let(:options) { { title: 'Pets per Floor', columns: ['<b>Floor 1</b>', 'Floor 2'], rows: ['cats', 'dogs'], bar_width: 50, height: 500, label_height: 20, class: 'my-class', data_formatters: %i[delimiter percent rounded] } }
+    let(:options) { { title: 'Pets per Floor', series_labels: ['<b>Floor 1</b>', 'Floor 2'], rows: ['cats', 'dogs'], bar_width: 50, height: 500, label_height: 20, class: 'my-class', data_formatters: %i[delimiter percent rounded] } }
     let(:bar_chart_stub) { BarChart.new(collection, {}) }
     let(:bar_chart) { BarChart.new(collection, options) }
     let(:rect_tag) { SVGChart.grid_rect_tag(bar_chart.grid_height, bar_chart.grid_width) }
@@ -25,7 +25,7 @@ module ActiveCharts
     
     it '#series_labels returns array of column labels, if any' do
       expect(bar_chart_stub.series_labels).to eql([])
-      expect(bar_chart.series_labels).to eql(options[:columns])
+      expect(bar_chart.series_labels).to eql(options[:series_labels])
     end
     
     it '#bar_width returns options value or 40' do

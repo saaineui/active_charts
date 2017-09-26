@@ -3,24 +3,17 @@ class ApplicationRecord
 end
 
 class Pet < ApplicationRecord
-  def initialize(name = nil, floor_1 = nil, floor_2 = nil)
+  def initialize(name = nil, *floors)
     @name = name
-    @floor_1 = floor_1
-    @floor_2 = floor_2
+    @floor_1 = floors[0]
+    @floor_2 = floors[1]
+    @floor_3 = floors[2]
+    @floor_4 = floors[3]
   end
 
-  attr_reader :name, :floor_1, :floor_2
+  attr_reader :name, :floor_1, :floor_2, :floor_3, :floor_4
 
   def attribute_names
-    %w[name floor_1 floor_2]
-  end
-  
-  def self.pluck(*columns)
-    case columns
-    when %i[name]
-      ['cats', 'dogs']
-    when %i[floor_1 floor_2]
-      [[5, 1], [2, 3]]
-    end
+    %w[name floor_1 floor_2 floor_3 floor_4]
   end
 end

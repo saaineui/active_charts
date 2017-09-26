@@ -2,29 +2,14 @@ module ActiveCharts
   class BarChart < RectangularChart
     DEFAULT_BAR_WIDTH = 40
     
-    attr_reader :x_labels, :series_labels, :bar_width, :bars_count, :x_offset, :y_offset, 
+    attr_reader :x_labels, :bar_width, :bars_count, :x_offset, :y_offset, 
                 :section_width, :max_bar_height, :max_values, :y_multipliers
     
     def chart_svg_tag
-      opts = { 
-        xmlns: 'http://www.w3.org/2000/svg',
-        style: "width: #{svg_width}px; height: auto;",
-        viewBox: "0 0 #{svg_width} #{svg_height}",
-        class: 'ac-chart ac-bar-chart'
-      }
-
       inner_html = [grid_rect_tag, bars, bottom_label_text_tags].flatten.join('
           ')
       
-      tag.svg(inner_html.html_safe, opts)
-    end
-    
-    def legend_list_tag
-      list_items = series_labels.map.with_index do |label, index| 
-        tag.li(label, class: series_class(index)) 
-      end
-      
-      tag.ul(list_items.join.html_safe, class: 'ac-chart ac-series-legend')
+      tag.svg(inner_html.html_safe, svg_options)
     end
     
     def bars

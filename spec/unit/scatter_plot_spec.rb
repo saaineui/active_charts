@@ -4,7 +4,7 @@ require 'mocks/svg_chart'
 module ActiveCharts
   RSpec.describe ScatterPlot do
     let(:collection) { [[[5, 1], [-3, -2]], [[2, '0.1'], [1, -8]]] }
-    let(:options) { { title: 'YoY Sales Growth vs. YoY Marketing Spend', columns: ['Lemonade', 'Cookies'], rows: ['Q1', 'Q2'], width: 700, height: 500, label_height: 20, class: 'my-class' } }
+    let(:options) { { title: 'YoY Sales Growth vs. YoY Marketing Spend', series_labels: ['Lemonade', 'Cookies'], rows: ['Q1', 'Q2'], width: 700, height: 500, label_height: 20, class: 'my-class', data_formatters: %i[currency default] } }
     let(:scatter_stub) { ScatterPlot.new(collection, {}) }
     let(:scatter) { ScatterPlot.new(collection, options) }
     let(:rect_tag) { SVGChart.grid_rect_tag(scatter.grid_height, scatter.grid_width) }
@@ -32,7 +32,7 @@ module ActiveCharts
     
     it '#series_labels returns array of column labels, if any' do
       expect(scatter_stub.series_labels).to eql([])
-      expect(scatter.series_labels).to eql(options[:columns])
+      expect(scatter.series_labels).to eql(options[:series_labels])
     end
     
     it '#svg_height returns default or options height' do
@@ -90,7 +90,7 @@ module ActiveCharts
     end
     
     it '#bottom_label_text_tags' do
-      expect(scatter.bottom_label_text_tags).to include(%(<text x="0.0" y="490.0" class="ac-x-label anchor_start">-4</text><text x="64.0" y="490.0" class="ac-x-label">-3</text><text x="128.0" y="490.0" class="ac-x-label">-2</text>))
+      expect(scatter.bottom_label_text_tags).to include(SVGChart.scatter_plot_x_labels)
     end
   end
 end

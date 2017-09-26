@@ -41,7 +41,7 @@ module SVGChart
           <text x="114.0" y="91.5" class="ac-scatter-plot-label">dogs</text>
           <text x="560" y="390.0" class="ac-y-label">0</text><text x="560" y="292.5" class="ac-y-label">1</text><text x="560" y="195.0" class="ac-y-label">2</text><text x="560" y="97.5" class="ac-y-label">3</text><text x="560" y="0.0" class="ac-y-label">4</text>
           <text x="0.0" y="405.0" class="ac-x-label anchor_start">1</text><text x="108.0" y="405.0" class="ac-x-label">2</text><text x="216.0" y="405.0" class="ac-x-label">3</text><text x="324.0" y="405.0" class="ac-x-label">4</text><text x="432.0" y="405.0" class="ac-x-label">5</text><text x="540.0" y="405.0" class="ac-x-label">6</text></svg>
-          <ul class="ac-chart ac-series-legend"><li class="series-a">Floor 1</li><li class="series-b">Floor 2</li></ul></figure>)
+          <ul class="ac-chart ac-series-legend"><li class="series-a">Floor 1 vs. Floor 2</li><li class="series-b">Floor 3 vs. Floor 4</li></ul></figure>)
   end
   
   def scatter_plot_empty
@@ -52,10 +52,14 @@ module SVGChart
           <ul class="ac-chart ac-series-legend"></ul></figure>)
   end
   
+  def scatter_plot_x_labels
+    %(<text x="0.0" y="490.0" class="ac-x-label anchor_start">-$4</text><text x="64.0" y="490.0" class="ac-x-label">-$3</text><text x="128.0" y="490.0" class="ac-x-label">-$2</text>)
+  end
+  
   def grid_rect_tag(height, weight)
     offset = TOP_LEFT_OFFSET * 2
     %(<rect x="1" y="1" height="#{height - offset}" width="#{weight - offset}" class="grid"></rect>)
   end
   
-  module_function :bar_chart, :bar_chart_empty, :scatter_plot, :scatter_plot_empty, :grid_rect_tag
+  module_function :bar_chart, :bar_chart_empty, :scatter_plot, :scatter_plot_empty, :grid_rect_tag, :scatter_plot_x_labels
 end

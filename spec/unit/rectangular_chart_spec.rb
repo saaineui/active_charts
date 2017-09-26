@@ -4,7 +4,7 @@ require 'mocks/svg_chart'
 module ActiveCharts
   RSpec.describe RectangularChart do
     let(:collection) { [[5, 1], [2, 3, '0.1']] }
-    let(:options) { { title: 'Pets per Floor', columns: ['<b>Floor 1</b>', 'Floor 2'], rows: ['cats', 'dogs'], width: 500, height: 500, label_height: 20, class: 'my-class', data_formatters: %i[delimiter percent rounded] } }
+    let(:options) { { title: 'Pets per Floor', series_labels: ['<b>Floor 1</b>', 'Floor 2'], rows: ['cats', 'dogs'], width: 500, height: 500, label_height: 20, class: 'my-class', data_formatters: %i[delimiter percent rounded] } }
     let(:chart_stub) { RectangularChart.new(collection, {}) }
     let(:chart) { RectangularChart.new(collection, options) }
     let(:rect_tag) { SVGChart.grid_rect_tag(options[:height], options[:width]) }

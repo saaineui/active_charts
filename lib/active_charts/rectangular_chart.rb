@@ -30,7 +30,6 @@ module ActiveCharts
     def process_options(options)
       super
       
-      @series_labels = options[:columns] || []
       @grid_width = @svg_width = options[:width] || MARGIN * 30
       @grid_height = @svg_height = options[:height] || MARGIN * 20
     end
