@@ -75,8 +75,8 @@ module ActiveCharts
 
     it '#dots_specs' do
       expect(scatter.dots_specs.first).to eq([
-        { cx: 594.0, cy: 41.818182, class: "ac-scatter-plot-dot series-a", label: 'Q1' }, 
-        { cx: 66.0, cy: 167.272727, class: "ac-scatter-plot-dot series-b", label: 'Q1' }])
+        { cx: 576.0, cy: 41.818182, class: "ac-scatter-plot-dot series-a", label: 'Q1' }, 
+        { cx: 64.0, cy: 167.272727, class: "ac-scatter-plot-dot series-b", label: 'Q1' }])
     end
     
     it '#dots returns array of <circle> and <text> tags' do
@@ -90,7 +90,7 @@ module ActiveCharts
     end
     
     it '#bottom_label_text_tags' do
-      expect(scatter.bottom_label_text_tags).to include(%(<text x="0.0" y="490.0">-4</text><text x="66.0" y="490.0">-3</text><text x="132.0" y="490.0">-2</text>))
+      expect(scatter.bottom_label_text_tags).to include(%(<text x="0.0" y="490.0" class="ac-x-label anchor_start">-4</text><text x="64.0" y="490.0" class="ac-x-label">-3</text><text x="128.0" y="490.0" class="ac-x-label">-2</text>))
     end
   end
 end

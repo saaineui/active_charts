@@ -25,23 +25,30 @@ module SVGChart
   
   def scatter_plot
     %(<figure class="ac-chart-container ac-clearfix "><figcaption class="ac-chart-title">Pets per Floor</figcaption>
-          <svg xmlns="http://www.w3.org/2000/svg" style="width: 600px; height: auto;" viewBox="0 0 600 410" class="ac-chart ac-scatter-plot">#{grid_rect_tag(390, 560)}
-          <circle cx="448.0" cy="292.5" class="ac-scatter-plot-dot series-a" />
-          <text x="448.0" y="292.5" class="ac-scatter-plot-label">cats</text>
-          <circle cx="336.0" cy="390.0" class="ac-scatter-plot-dot series-b" />
-          <text x="336.0" y="390.0" class="ac-scatter-plot-label">cats</text>
-          <circle cx="112.0" cy="97.5" class="ac-scatter-plot-dot series-a" />
-          <text x="112.0" y="97.5" class="ac-scatter-plot-label">dogs</text>
-          <text x="580" y="390.0" class="ac-y-label">0</text><text x="580" y="292.5" class="ac-y-label">1</text><text x="580" y="195.0" class="ac-y-label">2</text><text x="580" y="97.5" class="ac-y-label">3</text><text x="580" y="0.0" class="ac-y-label">4</text>
-          <text x="0.0" y="405.0">1</text><text x="112.0" y="405.0">2</text><text x="224.0" y="405.0">3</text><text x="336.0" y="405.0">4</text><text x="448.0" y="405.0">5</text><text x="560.0" y="405.0">6</text></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" style="width: 600px; height: auto;" viewBox="0 0 600 410" class="ac-chart ac-scatter-plot">#{grid_rect_tag(390, 540)}
+          <line x1="108.0" x2="108.0" y1="1" y2="389" class="ac-grid-line" />
+          <line x1="216.0" x2="216.0" y1="1" y2="389" class="ac-grid-line" />
+          <line x1="324.0" x2="324.0" y1="1" y2="389" class="ac-grid-line" />
+          <line x1="432.0" x2="432.0" y1="1" y2="389" class="ac-grid-line" />
+          <line x1="1" x2="539" y1="292.5" y2="292.5" class="ac-grid-line" />
+          <line x1="1" x2="539" y1="195.0" y2="195.0" class="ac-grid-line" />
+          <line x1="1" x2="539" y1="97.5" y2="97.5" class="ac-grid-line" />
+          <circle cx="432.0" cy="292.5" class="ac-scatter-plot-dot series-a" />
+          <text x="438.0" y="286.5" class="ac-scatter-plot-label">cats</text>
+          <circle cx="324.0" cy="390.0" class="ac-scatter-plot-dot series-b" />
+          <text x="330.0" y="384.0" class="ac-scatter-plot-label">cats</text>
+          <circle cx="108.0" cy="97.5" class="ac-scatter-plot-dot series-a" />
+          <text x="114.0" y="91.5" class="ac-scatter-plot-label">dogs</text>
+          <text x="560" y="390.0" class="ac-y-label">0</text><text x="560" y="292.5" class="ac-y-label">1</text><text x="560" y="195.0" class="ac-y-label">2</text><text x="560" y="97.5" class="ac-y-label">3</text><text x="560" y="0.0" class="ac-y-label">4</text>
+          <text x="0.0" y="405.0" class="ac-x-label anchor_start">1</text><text x="108.0" y="405.0" class="ac-x-label">2</text><text x="216.0" y="405.0" class="ac-x-label">3</text><text x="324.0" y="405.0" class="ac-x-label">4</text><text x="432.0" y="405.0" class="ac-x-label">5</text><text x="540.0" y="405.0" class="ac-x-label">6</text></svg>
           <ul class="ac-chart ac-series-legend"><li class="series-a">Floor 1</li><li class="series-b">Floor 2</li></ul></figure>)
   end
   
   def scatter_plot_empty
     %(<figure class="ac-chart-container ac-clearfix "><figcaption class="ac-chart-title"></figcaption>
-          <svg xmlns="http://www.w3.org/2000/svg" style="width: 600px; height: auto;" viewBox="0 0 600 400" class="ac-chart ac-scatter-plot">#{grid_rect_tag(380, 560)}
-          <text x="580" y="380.0" class="ac-y-label">0</text><text x="580" y="0.0" class="ac-y-label">1</text>
-          <text x="0.0" y="395.0">0</text><text x="560.0" y="395.0">1</text></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" style="width: 600px; height: auto;" viewBox="0 0 600 400" class="ac-chart ac-scatter-plot">#{grid_rect_tag(380, 540)}
+          <text x="560" y="380.0" class="ac-y-label">0</text><text x="560" y="0.0" class="ac-y-label">1</text>
+          <text x="0.0" y="395.0" class="ac-x-label anchor_start">0</text><text x="540.0" y="395.0" class="ac-x-label">1</text></svg>
           <ul class="ac-chart ac-series-legend"></ul></figure>)
   end
   

@@ -1,19 +1,25 @@
 module ActiveCharts
   class ScatterPlot < RectangularChart
-    attr_reader :x_labels, :y_labels, :series_labels, :dot_labels, :x_min, :x_max, :y_min, :y_max
+    OFFSET = 6
+    
+    def initialize(collection, options = {})
+      super
+      
+      tick_calcs
+    end
+    
+    attr_reader :x_labels, :y_labels, :series_labels, :dot_labels, :x_min, :x_max, :y_min, :y_max,
+                :x_label_y, :y_label_x, :x_ticks, :y_ticks, :section_width, :section_height
     
     def chart_svg_tag
-      opts = { 
-        xmlns: 'http://www.w3.org/2000/svg',
-        style: "width: #{svg_width}px; height: auto;",
-        viewBox: "0 0 #{svg_width} #{svg_height}",
-        class: 'ac-chart ac-scatter-plot'
-      }
-
-      inner_html = [grid_rect_tag, dots, side_label_text_tags, bottom_label_text_tags].flatten.join('
+      inner_html = [grid_rect_tag, ticks(x_ticks, y_ticks), dots, 
+                    side_label_text_tags, bottom_label_text_tags].flatten.join('
           ')
       
-      tag.svg(inner_html.html_safe, opts)
+      tag.svg(
+        inner_html.html_safe, 
+        svg_options
+      )
     end
     
     def legend_list_tag
@@ -29,7 +35,7 @@ module ActiveCharts
       
       dots_specs.flatten.map do |dot| 
         [%(<circle #{tag_options(dot, whitelist)} />),
-         tag.text(dot[:label], x: dot[:cx], y: dot[:cy], class: 'ac-scatter-plot-label')]
+         tag.text(dot[:label], x: dot[:cx] + OFFSET, y: dot[:cy] - OFFSET, class: 'ac-scatter-plot-label')]
       end
     end
 
@@ -42,18 +48,17 @@ module ActiveCharts
     end
     
     def side_label_text_tags
-      section_height = grid_height.to_d / (y_labels.count - 1)
-      
       y_labels.map.with_index do |label, index| 
-        tag.text(label, y_label_options(section_height, index))
+        tag.text(label, x: y_label_x, y: y_tick(index), class: 'ac-y-label')
       end.join
     end
 
     def bottom_label_text_tags
-      section_width = grid_width.to_d / (x_labels.count - 1)
-      
       x_labels.map.with_index do |label, index| 
-        tag.text(label, x_label_options(section_width, index))
+        classes = 'ac-x-label'
+        classes += ' anchor_start' if index.zero?
+      
+        tag.text(label, x: x_tick(index), y: x_label_y, class: classes)
       end.join
     end
 
@@ -74,25 +79,26 @@ module ActiveCharts
     end
       
     def width_calcs(values)
-      @grid_width = svg_width - MARGIN * 2
+      @grid_width = svg_width - MARGIN * 3
       @x_min, @x_max, x_step = Util.scale(values.min, values.max)
       @x_labels = (x_min..x_max).step(x_step)
+      @section_width = grid_width.to_d / (x_labels.count - 1)
     end
     
     def height_calcs(values)
       @grid_height = svg_height - label_height * 2
       @y_min, @y_max, y_step = Util.scale(values.min, values.max)
       @y_labels = (y_min..y_max).step(y_step)
+      @section_height = grid_height.to_d / (y_labels.count - 1)
     end 
-      
-    def width_filter
-      :first
-    end
-
-    def height_filter
-      :last
-    end
     
+    def tick_calcs
+      @x_label_y = grid_height + label_height * 1.5
+      @y_label_x = grid_width + MARGIN
+      @x_ticks = (1..x_labels.size - 2).map { |i| x_tick(i) }
+      @y_ticks = (1..y_labels.size - 2).map { |i| y_tick(i) }
+    end
+      
     def dot_spec(cell, row_index, col_index)
       { cx: dot_cx(cell.first), cy: dot_cy(cell.last), class: dot_classes(col_index), 
         label: dot_labels[row_index] }
@@ -110,16 +116,17 @@ module ActiveCharts
       ['ac-scatter-plot-dot', series_class(col)].join(' ')
     end
     
-    def y_label_options(section_height, index)
-      { 
-        x: grid_width + MARGIN, 
-        y: (section_height * (y_labels.count - 1 - index)).round(6), 
-        class: 'ac-y-label' 
-      }
+    def x_tick(index)
+      section_width * index
     end
     
-    def x_label_options(section_width, index)
-      { x: section_width * index, y: grid_height + label_height * 1.5 }
+    def y_tick(index)
+      (section_height * (y_labels.count - 1 - index)).round(6)
+    end
+    
+    def svg_options
+      { xmlns: 'http://www.w3.org/2000/svg', style: "width: #{svg_width}px; height: auto;",
+        viewBox: "0 0 #{svg_width} #{svg_height}", class: 'ac-chart ac-scatter-plot' }
     end
   end
 end
