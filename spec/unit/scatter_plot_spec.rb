@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'mocks/svg_chart'
 
 module ActiveCharts
   RSpec.describe ScatterPlot do
@@ -6,7 +7,7 @@ module ActiveCharts
     let(:options) { { title: 'YoY Sales Growth vs. YoY Marketing Spend', columns: ['Lemonade', 'Cookies'], rows: ['Q1', 'Q2'], width: 700, height: 500, label_height: 20, class: 'my-class' } }
     let(:scatter_stub) { ScatterPlot.new(collection, {}) }
     let(:scatter) { ScatterPlot.new(collection, options) }
-    let(:rect_tag) { %(<rect height="460" width="660" class="grid" />) }
+    let(:rect_tag) { SVGChart.grid_rect_tag(scatter.grid_height, scatter.grid_width) }
     
     it '#title returns title from options or empty string' do
       expect(scatter_stub.title).to eql('')
@@ -74,8 +75,8 @@ module ActiveCharts
 
     it '#dots_specs' do
       expect(scatter.dots_specs.first).to eq([
-        { cx: 594.0, cy: 41.818182, class: "ac-scatter-plot-dot series-a", label: 'Q1' }, 
-        { cx: 66.0, cy: 167.272727, class: "ac-scatter-plot-dot series-b", label: 'Q1' }])
+        { cx: 576.0, cy: 41.818182, class: "ac-scatter-plot-dot series-a", label: 'Q1' }, 
+        { cx: 64.0, cy: 167.272727, class: "ac-scatter-plot-dot series-b", label: 'Q1' }])
     end
     
     it '#dots returns array of <circle> and <text> tags' do
@@ -89,7 +90,7 @@ module ActiveCharts
     end
     
     it '#bottom_label_text_tags' do
-      expect(scatter.bottom_label_text_tags).to include(%(<text x="0.0" y="490.0">-4</text><text x="66.0" y="490.0">-3</text><text x="132.0" y="490.0">-2</text>))
+      expect(scatter.bottom_label_text_tags).to include(%(<text x="0.0" y="490.0" class="ac-x-label anchor_start">-4</text><text x="64.0" y="490.0" class="ac-x-label">-3</text><text x="128.0" y="490.0" class="ac-x-label">-2</text>))
     end
   end
 end
