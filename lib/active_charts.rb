@@ -1,17 +1,11 @@
 require 'rails'
-require 'active_charts/version'
-require 'active_charts/chart'
-require 'active_charts/rectangular_chart'
-require 'active_charts/xy_chart'
-require 'active_charts/bar_chart'
-require 'active_charts/scatter_plot'
-require 'active_charts/helpers/chart_helper'
 
 module ActiveCharts
   class Engine < ::Rails::Engine
     initializer 'active_charts.initialize' do
       ActiveSupport.on_load(:action_view) do
-        include ActiveCharts::Helpers::ChartHelper
+        include ActiveCharts::Helpers::BarChartHelper
+        include ActiveCharts::Helpers::ScatterPlotHelper
       end
     end
 
@@ -20,6 +14,13 @@ module ActiveCharts
   
   extend ActiveSupport::Autoload
 
-  autoload :Helpers
-  autoload :Util
+  eager_autoload do
+    autoload :Helpers
+    autoload :Util
+    autoload :Chart
+    autoload :RectangularChart
+    autoload :XYChart
+    autoload :BarChart
+    autoload :ScatterPlot
+  end  
 end

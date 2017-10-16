@@ -35,26 +35,12 @@ module ActiveCharts
       expect(scatter.series_labels).to eql(options[:series_labels])
     end
     
-    it '#svg_height returns default or options height' do
-      expect(scatter.svg_height).to eql(500)
-      expect(scatter_stub.svg_height).to eql(400)
-    end
-    
     it '#columns_count returns number of columns in collection' do
       expect(scatter.columns_count).to eql(2)
     end
     
     it '#rows_count returns number of rows in collection' do
       expect(scatter.rows_count).to eql(2)
-    end
-    
-    it '#svg_width returns default or options width' do
-      expect(scatter.svg_width).to eql(700)
-      expect(scatter_stub.svg_width).to eql(600)
-    end
-
-    it '#grid_height returns svg_height offset by label_height' do
-      expect(scatter.grid_height).to eql(460)
     end
     
     it '#grid_rect_tag' do
@@ -75,8 +61,8 @@ module ActiveCharts
 
     it '#dots_specs' do
       expect(scatter.dots_specs.first).to eq([
-        { cx: 576.0, cy: 41.818182, class: "ac-scatter-plot-dot series-a", label: 'Q1' }, 
-        { cx: 64.0, cy: 167.272727, class: "ac-scatter-plot-dot series-b", label: 'Q1' }])
+        { cx: 558.0, cy: 41.818182, class: "ac-scatter-plot-dot series-a", label: 'Q1' }, 
+        { cx: 62.0, cy: 167.272727, class: "ac-scatter-plot-dot series-b", label: 'Q1' }])
     end
     
     it '#dots returns array of <circle> and <text> tags' do

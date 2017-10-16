@@ -15,23 +15,30 @@ module ActiveCharts
     end
     
     it '#collection returns collection' do
-      expect(chart_stub.collection).to eql([[[5.0, 1.0], [-3.0, -2.0]], [[2.0, 0.1], [1.0, -8.0]]])
+      normalized_collection = [[[5.0, 1.0], [-3.0, -2.0]], [[2.0, 0.1], [1.0, -8.0]]]
+      
+      expect(chart_stub.collection).to eql(normalized_collection)
+      expect(chart.collection).to eql(normalized_collection)
     end
     
     it '#x_min returns x-axis start value' do
       expect(chart_stub.x_min).to eql(-4)
+      expect(chart.x_min).to eql(-4)
     end
     
     it '#x_max returns' do
       expect(chart_stub.x_max).to eql(6)
+      expect(chart.x_max).to eql(6)
     end
     
     it '#y_min returns' do
       expect(chart_stub.y_min).to eql(-9)
+      expect(chart.y_min).to eql(-9)
     end
     
     it '#y_max returns' do
       expect(chart_stub.y_max).to eql(2)
+      expect(chart.y_max).to eql(2)
     end
     
     it '#x_labels returns enumerator of ticks' do
@@ -48,26 +55,32 @@ module ActiveCharts
     
     it '#grid_height returns svg_height offset by label_height * 2' do
       expect(chart_stub.grid_height).to eql(380)
+      expect(chart.grid_height).to eql(460)
     end
     
-    it '#grid_width returns svg_width offset by MARGIN * 3' do
-      expect(chart_stub.grid_width).to eql(540)
+    it '#grid_width returns svg_width offset by MARGIN * 4' do
+      expect(chart_stub.grid_width).to eql(520)
+      expect(chart.grid_width).to eql(620)
     end
     
     it '#x_label_y returns' do
       expect(chart_stub.x_label_y).to eql(395.0)
+      expect(chart.x_label_y).to eql(490.0)
     end
     
     it '#y_label_x returns' do
-      expect(chart_stub.y_label_x).to eql(560)
+      expect(chart_stub.y_label_x).to eql(526)
+      expect(chart.y_label_x).to eql(626)
     end
     
     it '#section_width returns' do
-      expect(chart_stub.section_width).to eql(54.0)
+      expect(chart_stub.section_width).to eql(52.0)
+      expect(chart.section_width).to eql(62.0)
     end
     
     it '#section_height returns' do
       expect(chart_stub.section_height).to be_within(0.001).of(380.0 / 11)
+      expect(chart.section_height).to be_within(0.001).of(460.0 / 11)
     end
     
     it '#x_ticks returns' do
@@ -98,7 +111,7 @@ module ActiveCharts
     end
     
     it '#side_label_text_tags returns text tags' do
-      expect(chart_stub.side_label_text_tags).to include(%(<text x="560" y="380.0" class="ac-y-label">-9</text><text x="560" y="345.454545" class="ac-y-label">-8</text><text x="560" y="310.909091" class="ac-y-label">-7</text>))
+      expect(chart_stub.side_label_text_tags).to include(%(<text x="526" y="380.0" class="ac-y-label">-9</text><text x="526" y="345.454545" class="ac-y-label">-8</text><text x="526" y="310.909091" class="ac-y-label">-7</text>))
     end
     
     it '#bottom_label_text_tags returns text tags' do

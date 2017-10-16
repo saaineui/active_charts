@@ -43,7 +43,7 @@ module ActiveCharts
     end
       
     def width_calcs(values)
-      @grid_width = svg_width - MARGIN * 3
+      @grid_width = svg_width - MARGIN * 4
       @x_min, @x_max, x_step = Util.scale(values.min, values.max)
       @x_labels = (x_min..x_max).step(x_step)
     end
@@ -71,7 +71,7 @@ module ActiveCharts
     end
     
     def y_axis_x
-      grid_width + MARGIN
+      grid_width + OFFSET
     end
       
     def x_tick_x(index)
