@@ -31,6 +31,9 @@ module ActiveCharts
     end
     
     def safe_to_dec(item)
+      item = Date.new(item.year, item.month, item.day) if item.class.eql?(ActiveSupport::TimeWithZone)
+      item = item.jd if item.class.eql?(Date)
+      
       item.to_d
     rescue
       0.0
@@ -73,24 +76,6 @@ module ActiveCharts
     def valid_max_min?(min, max)
       [min, max].all? { |n| n.class.superclass.eql?(Numeric) } && max > min
     end
-
-    def valid_columns(resource, columns)
-      attribute_names = resource.new.attribute_names.map(&:to_sym) 
-      
-      return attribute_names if columns.eql?([])
-      
-      attribute_names & columns
-    end
-    
-    def label_column(resource)
-      attribute_names = resource.new.attribute_names
-      
-      %w[name title id].each do |attribute_name|
-        return attribute_name.to_sym if attribute_names.include?(attribute_name)
-      end
-      
-      attribute_names.first.to_sym
-    end
     
     def valid_collection?(item)
       item.respond_to?(:first) && item.first.class.superclass.eql?(ApplicationRecord)
@@ -98,7 +83,7 @@ module ActiveCharts
     
     module_function :max_values, :array_of_arrays?, :initialize_maxes, :multiplier, :safe_to_dec, 
                     :grid_index, :scaled_position, :scale, :scale_interval, :valid_max_min?, 
-                    :valid_columns, :label_column, :valid_collection?
+                    :valid_collection?
   end
   
   private_constant :Util

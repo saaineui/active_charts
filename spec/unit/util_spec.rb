@@ -31,6 +31,7 @@ module ActiveCharts
     it '::safe_to_dec attempts to_d and returns 0.0 if failed' do
       expect(Util.safe_to_dec('100.01')).to eql(100.01)
       expect(Util.safe_to_dec('String')).to eql(0.0)
+      expect(Util.safe_to_dec(Date.new(2017,1,2))).to eql(2457756.0)
     end
     
     it '::grid_index returns item index for 2x2 matrix' do
@@ -57,20 +58,6 @@ module ActiveCharts
       expect(Util.scale_interval(101, 110)).to eql(1)
       expect(Util.scale_interval(-300.8, 90010)).to eql(10000)
       expect(Util.scale_interval(1, 0)).to eql(0.5)
-    end
-    
-    it '::valid_collection? returns true if it is valid for #bar_chart_for' do
-      expect(Util.valid_collection?(pets)).to be(true)
-      expect(Util.valid_collection?(1)).to be(false)
-      expect(Util.valid_collection?([])).to be(false)
-    end
-    
-    it '::valid_columns' do
-      expect(Util.valid_columns(Pet, [:floor_1])).to eql([:floor_1])
-    end
-    
-    it '::label_column' do
-      expect(Util.label_column(Pet)).to eql(:name)
     end
   end
 end

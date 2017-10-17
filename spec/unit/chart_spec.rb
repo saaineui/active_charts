@@ -71,6 +71,7 @@ module ActiveCharts
       expect(chart.send(:formatted_val, 25125, :currency)).to eq('$25,125')
       expect(chart.send(:formatted_val, 0.12345, :percent)).to eq('12.3%')
       expect(chart.send(:formatted_val, Date.new(2017,1,1), :date)).to eq('2017-01-01')
+      expect(chart.send(:formatted_val, 2457756.0, :date)).to eq('2017-01-02')
     end
   end
 end

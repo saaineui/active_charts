@@ -6,8 +6,8 @@ module ActiveCharts
       def initialize(resource_collection, columns, label_column)
         resource = resource_collection.first.class
 
-        @label_column = label_column || Util.label_column(resource)
-        @columns = Util.valid_columns(resource, columns)
+        @label_column = label_column || auto_label_column(resource)
+        @columns = valid_columns(resource, columns)
         @rows = resource_collection.pluck(@label_column)
         @collection = resource_collection.pluck(*@columns)
       end
@@ -19,21 +19,41 @@ module ActiveCharts
       end
 
       def xy_series_labels
-        series_labels_size = series_labels.size.even? ? series_labels.size : series_labels.size - 1
+        x_label = series_labels.first
 
-        (0..series_labels_size - 1).step(2).map do |index|
-          "#{series_labels[index]} vs. #{series_labels[index + 1]}"
+        series_labels[1..-1].map do |y_label|
+          "#{x_label} vs. #{y_label}"
         end
       end
 
       def xy_collection
         collection.map do |row|
-          row_size = row.count.even? ? row.size : row.size - 1
+          x_val = row.first
 
-          (0..row_size - 1).step(2).map do |index|
-            [row[index], row[index + 1]] if row[index] && row[index + 1]
-          end.compact
+          row[1..-1].map do |y_val|
+            [x_val, y_val]
+          end
         end
+      end
+      
+      private
+      
+      def valid_columns(resource, columns)
+        attribute_names = resource.new.attribute_names.map(&:to_sym) 
+
+        return attribute_names if columns.eql?([])
+
+        attribute_names & columns
+      end
+
+      def auto_label_column(resource)
+        attribute_names = resource.new.attribute_names
+
+        %w[name title id].each do |attribute_name|
+          return attribute_name.to_sym if attribute_names.include?(attribute_name)
+        end
+
+        attribute_names.first.to_sym
       end
     end
     

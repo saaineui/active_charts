@@ -79,6 +79,8 @@ module ActiveCharts
     end
     
     def y_tick_y(index)
+      return label_height + TOP_LEFT_OFFSET if index.eql?(y_labels.count - 1)
+      
       (section_height * (y_labels.count - 1 - index)).round(6)
     end
   end

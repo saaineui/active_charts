@@ -8,9 +8,9 @@ module ActiveCharts
     RSpec.describe 'ScatterPlotHelper' do
       include ScatterPlotHelper
       
-      let(:xy_collection) { [[[5, 1], [4, 0]], [[2, 3]]] }
-      let(:xy_pets) { PetCollection.new(Pet.new('cats', 5, 1, 4, 0), Pet.new('dogs', 2, 3)) }
-      let(:xy_options) { { title: 'Pets per Floor', rows: %w[cats dogs], series_labels: ['Floor 1 vs. Floor 2', 'Floor 3 vs. Floor 4'], height: 410 } }
+      let(:xy_collection) { [[[5, 1], [5, 0]], [[2, 3], [2, 0]]] }
+      let(:xy_pets) { PetCollection.new(Pet.new('cats', 5, 1, 0), Pet.new('dogs', 2, 3)) }
+      let(:xy_options) { { title: 'Pets per Floor', rows: %w[cats dogs], series_labels: ['Floor 1 vs. Floor 2', 'Floor 1 vs. Floor 3'], height: 410 } }
       let(:empty_pets) { PetCollection.new([]) }
       let(:spare_options) { { title: xy_options[:title], height: xy_options[:height] } }
       let(:pets_title) { %(<figcaption class="ac-chart-title">Pets per Floor</figcaption>) }
@@ -34,7 +34,7 @@ module ActiveCharts
         
       describe '::scatter_plot_for' do
         it 'returns a <figure>, <figcaption>, <svg> chart and <ul> legend' do
-          expect(scatter_plot_for(xy_pets, %i[floor_1 floor_2 floor_3 floor_4], spare_options)).to eq(mock_scatter_plot)
+          expect(scatter_plot_for(xy_pets, %i[floor_1 floor_2 floor_3], spare_options)).to eq(mock_scatter_plot)
           expect(scatter_plot_for(xy_pets)).to_not be(nil)
         end
         

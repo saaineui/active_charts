@@ -7,7 +7,7 @@ RSpec.describe ActiveCharts do
   let(:helpers) { %w[BarChartHelper ScatterPlotHelper CollectionParser] }
   
   it 'has a version number' do
-    expect(ActiveCharts::VERSION).to eq('0.1.5')
+    expect(ActiveCharts::VERSION).to eq('0.1.5.1')
   end
   
   it 'has helper modules and classes' do
