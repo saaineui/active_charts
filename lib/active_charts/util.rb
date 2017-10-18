@@ -31,12 +31,27 @@ module ActiveCharts
     end
     
     def safe_to_dec(item)
-      item = Date.new(item.year, item.month, item.day) if item.class.eql?(ActiveSupport::TimeWithZone)
-      item = item.jd if item.class.eql?(Date)
+      item = Date.new(item.year, item.month, item.day) if date_like?(item)
+      item = item.jd if item.respond_to?(:jd)
       
       item.to_d
     rescue
       0.0
+    end
+    
+    def date_like?(item)
+      return false if item.respond_to?(:jd)
+      
+      %i[year month day].all? do |method| 
+        item.respond_to?(method) &&
+          item.send(method).class.eql?(Integer) 
+      end
+    end
+    
+    def date_label(val)
+      val = Date.jd(val) if val.class.superclass.eql?(Numeric)
+
+      val.respond_to?(:strftime) ? val.strftime('%F') : val.to_s
     end
     
     def grid_index(width, x, y)
@@ -54,10 +69,28 @@ module ActiveCharts
       
       step = scale_interval(min, max)
       
-      a = min.zero? ? 0 : ((min.to_d / step).to_i - 1) * step
-      b = max.zero? ? 0 : ((max.to_d / step).to_i + 1) * step
+      a = scale_a(min, step)
+      b = scale_b(max, step)
       
       [a, b, step]
+    end
+    
+    def scale_a(min, step)
+      return 0 if min.zero? 
+      
+      unscaled_a = (min.to_d / step).to_i
+      unscaled_a -= 1 if min.negative? || (min == unscaled_a * step)
+      
+      unscaled_a * step
+    end
+    
+    def scale_b(max, step)
+      return 0 if max.zero? 
+      
+      unscaled_b = (max.to_d / step).to_i
+      unscaled_b += 1 if max.positive? || (max == unscaled_b * step)
+      
+      unscaled_b * step
     end
     
     def scale_interval(min, max)
@@ -81,9 +114,9 @@ module ActiveCharts
       item.respond_to?(:first) && item.first.class.superclass.eql?(ApplicationRecord)
     end
     
-    module_function :max_values, :array_of_arrays?, :initialize_maxes, :multiplier, :safe_to_dec, 
-                    :grid_index, :scaled_position, :scale, :scale_interval, :valid_max_min?, 
-                    :valid_collection?
+    module_function :max_values, :array_of_arrays?, :initialize_maxes, :multiplier, :safe_to_dec, :date_like?,
+                    :date_label, :grid_index, :scaled_position, :scale, :scale_a, :scale_b, :scale_interval, 
+                    :valid_max_min?, :valid_collection?
   end
   
   private_constant :Util

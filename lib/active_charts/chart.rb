@@ -91,9 +91,7 @@ module ActiveCharts
       when :percent
         number_to_percentage(Util.safe_to_dec(val) * 100, precision: 1)
       when :date
-        val = Date.jd(val) if val.class.superclass.eql?(Numeric)
-        
-        val.respond_to?(:strftime) ? val.strftime('%F') : number_with_delimiter(val)
+        Util.date_label(val)
       when :rounded
         Util.safe_to_dec(val).round
       when :currency

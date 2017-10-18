@@ -4,7 +4,7 @@ require 'mocks/svg_chart'
 module ActiveCharts
   RSpec.describe ScatterPlot do
     let(:collection) { [[[5, 1], [-3, -2]], [[2, '0.1'], [1, -8]]] }
-    let(:options) { { title: 'YoY Sales Growth vs. YoY Marketing Spend', series_labels: ['Lemonade', 'Cookies'], rows: ['Q1', 'Q2'], width: 700, height: 500, label_height: 20, class: 'my-class', data_formatters: %i[currency default] } }
+    let(:options) { { title: 'YoY Sales Growth vs. YoY Marketing Spend', series_labels: %w[Lemonade Cookies], rows: %w[Q1 Q2], width: 700, height: 500, label_height: 20, class: 'my-class', data_formatters: %i[currency default] } }
     let(:scatter_stub) { ScatterPlot.new(collection, {}) }
     let(:scatter) { ScatterPlot.new(collection, options) }
     let(:rect_tag) { SVGChart.grid_rect_tag(scatter.grid_height, scatter.grid_width) }
@@ -60,9 +60,12 @@ module ActiveCharts
     end
 
     it '#dots_specs' do
-      expect(scatter.dots_specs.first).to eq([
-        { cx: 558.0, cy: 41.818182, class: "ac-scatter-plot-dot series-a", label: 'Q1' }, 
-        { cx: 62.0, cy: 167.272727, class: "ac-scatter-plot-dot series-b", label: 'Q1' }])
+      expect(scatter.dots_specs.first).to eq(
+        [
+          { cx: 558.0, cy: 41.818182, class: 'ac-scatter-plot-dot ac-triggerable series-a', label: 'Q1' }, 
+          { cx: 62.0, cy: 167.272727, class: 'ac-scatter-plot-dot ac-triggerable series-b', label: 'Q1' }
+        ]
+      )
     end
     
     it '#dots returns array of <circle> and <text> tags' do
@@ -76,7 +79,7 @@ module ActiveCharts
     end
     
     it '#bottom_label_text_tags' do
-      expect(scatter.bottom_label_text_tags).to include(SVGChart.scatter_plot_x_labels)
+      expect(scatter.bottom_label_text_tags).to include(SVGChart.xy_chart_x_labels)
     end
   end
 end
