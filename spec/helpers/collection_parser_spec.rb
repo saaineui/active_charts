@@ -6,18 +6,18 @@ module ActiveCharts
   module Helpers 
     RSpec.describe 'CollectionParser' do
       let(:pets) { PetCollection.new(Pet.new('cats', 1, 2)) }
-      let(:cp) { CollectionParser.new(pets, [:floor_1, :floor_2, :random], nil) }
+      let(:cp) { CollectionParser.new(pets, %i[floor_1 floor_2 random], nil) }
       
       it '#collection' do
         expect(cp.collection).to eq([[1, 2]])
       end
       
       it '#columns' do
-        expect(cp.columns).to eq([:floor_1, :floor_2])
+        expect(cp.columns).to eq(%i[floor_1 floor_2])
       end
       
       it '#rows' do
-        expect(cp.rows).to eq(['cats'])
+        expect(cp.rows).to eq(%w[cats])
       end
 
       it '#xy_collection' do

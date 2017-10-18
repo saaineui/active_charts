@@ -5,7 +5,7 @@ module ActiveCharts
   RSpec.describe XYChart do
     let(:collection) { [[[5, 1], [-3, -2]], [[2, '0.1'], [1, -8]]] }
     let(:date_collection) { [[[Date.new(2016, 1, 1), 1]], [[Date.new(2017, 1, 1), 2]]] }
-    let(:options) { { title: 'YoY Sales Growth vs. YoY Marketing Spend', series_labels: ['Lemonade', 'Cookies'], rows: ['Q1', 'Q2'], width: 700, height: 500, label_height: 20, class: 'my-class', data_formatters: %i[currency default] } }
+    let(:options) { { title: 'YoY Sales Growth vs. YoY Marketing Spend', series_labels: %w[Lemonade Cookies], rows: %w[Q1 Q2], width: 700, height: 500, label_height: 20, class: 'my-class', data_formatters: %i[currency default] } }
     let(:chart_stub) { XYChart.new(collection, {}) }
     let(:chart) { XYChart.new(collection, options) }
     let(:date_chart) { XYChart.new(date_collection, data_formatters: [:date]) }

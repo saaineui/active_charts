@@ -5,6 +5,14 @@ require 'mocks/pet_collection'
 module ActiveCharts
   RSpec.describe Util do
     let(:pets) { PetCollection.new(Pet.new(1)) }
+    let(:int) { 13 }
+    let(:float) { 100.01 }
+    let(:float_str) { '100.01' }
+    let(:string) { 'String' }
+    let(:date) { Date.new(2017, 1, 2) }
+    let(:time_zone) { ActiveSupport::TimeZone.new('Eastern Time (US & Canada)') }
+    let(:date_like) { ActiveSupport::TimeWithZone.new(DateTime.now.utc, time_zone) }
+    let(:date_str) { '2017-01-02' }
     
     it '::max_values returns array of max values at each index' do
       expect(Util.max_values([[10, -1], [3, 1, 2]])).to eql([10, 1, 2])
@@ -29,9 +37,24 @@ module ActiveCharts
     end
     
     it '::safe_to_dec attempts to_d and returns 0.0 if failed' do
-      expect(Util.safe_to_dec('100.01')).to eql(100.01)
-      expect(Util.safe_to_dec('String')).to eql(0.0)
-      expect(Util.safe_to_dec(Date.new(2017,1,2))).to eql(2457756.0)
+      expect(Util.safe_to_dec(int)).to eql(int.to_d)
+      expect(Util.safe_to_dec(float_str)).to eql(float)
+      expect(Util.safe_to_dec(string)).to eql(0.0)
+      expect(Util.safe_to_dec(date)).to eql(2457756.0)
+    end
+    
+    it '::date_like? returns true if a date-time object that is not a Date' do
+      expect(Util.date_like?(date_like)).to eql(true)
+      expect(Util.date_like?(int)).to eql(false)
+      expect(Util.date_like?(float)).to eql(false)
+      expect(Util.date_like?(date)).to eql(false)
+      expect(Util.date_like?(string)).to eql(false)
+    end
+    
+    it '::date_label returns a label for a value user thinks is a date' do
+      expect(Util.date_label(2457756.0)).to eql(date_str)
+      expect(Util.date_label(date)).to eql(date_str)
+      expect(Util.date_label([1, 2])).to eql('[1, 2]')
     end
     
     it '::grid_index returns item index for 2x2 matrix' do

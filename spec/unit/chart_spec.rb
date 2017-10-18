@@ -44,11 +44,11 @@ module ActiveCharts
     end
     
     it '#max_values falls back on computed if options array is ivalid' do
-      expect(Chart.new(collection, { max_values: [6] }).max_values).to eql(computed_max_values)
+      expect(Chart.new(collection, max_values: [6]).max_values).to eql(computed_max_values)
     end
     
     it '#max_values falls back on computed if options array is ivalid' do
-      expect(Chart.new(collection, { single_y_scale: true }).max_values).to eql([5.0, 5.0, 5.0])
+      expect(Chart.new(collection, single_y_scale: true).max_values).to eql([5.0, 5.0, 5.0])
     end
     
     it '#to_html returns <figure> container and <figcaption> title' do
@@ -70,7 +70,7 @@ module ActiveCharts
     it '#formatted_val returns value formatted by specified type' do
       expect(chart.send(:formatted_val, 25125, :currency)).to eq('$25,125')
       expect(chart.send(:formatted_val, 0.12345, :percent)).to eq('12.3%')
-      expect(chart.send(:formatted_val, Date.new(2017,1,1), :date)).to eq('2017-01-01')
+      expect(chart.send(:formatted_val, Date.new(2017, 1, 1), :date)).to eq('2017-01-01')
       expect(chart.send(:formatted_val, 2457756.0, :date)).to eq('2017-01-02')
     end
   end
