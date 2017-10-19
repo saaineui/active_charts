@@ -48,7 +48,7 @@ module ActiveCharts
       expect(x_labels.class).to eql(Enumerator)
       expect(x_labels.to_a).to eql((-4..6).to_a)
       
-      expect(date_chart.x_labels.to_a).to eql((2457200..2457800).step(100).to_a)
+      expect(date_chart.x_labels.to_a).to eql((2_457_300..2_457_800).step(100).to_a)
     end
     
     it '#y_labels returns enumerator of ticks' do
@@ -119,7 +119,7 @@ module ActiveCharts
     end
     
     it '#bottom_label_text_tags returns text tags' do
-      expect(chart.bottom_label_text_tags).to include(SVGChart.scatter_plot_x_labels)
+      expect(chart.bottom_label_text_tags).to include(SVGChart.xy_chart_x_labels)
       expect(date_chart.bottom_label_text_tags).to include(SVGChart.xy_date_chart_x_labels)
     end
   end

@@ -15,7 +15,7 @@ module ActiveCharts
       let(:spare_options) { { title: xy_options[:title], height: xy_options[:height] } }
       let(:pets_title) { %(<figcaption class="ac-chart-title">Pets per Floor</figcaption>) }
       let(:mock_scatter_plot) { SVGChart.scatter_plot }
-      let(:scatter_plot_empty) { SVGChart.scatter_plot_empty }
+      let(:scatter_plot_empty) { SVGChart.xy_chart_empty }
       
       describe '::scatter_plot' do
         it 'returns a <figure>, <figcaption>, <svg> chart and <ul> legend' do

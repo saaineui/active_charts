@@ -83,5 +83,9 @@ module ActiveCharts
       
       (section_height * (y_labels.count - 1 - index)).round(6)
     end
+    
+    def label_classes
+      [css_class + '-label', 'ac-toggleable'].join(' ')
+    end
   end
 end

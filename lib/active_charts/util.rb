@@ -52,8 +52,6 @@ module ActiveCharts
       val = Date.jd(val) if val.class.superclass.eql?(Numeric)
 
       val.respond_to?(:strftime) ? val.strftime('%F') : val.to_s
-    rescue
-      nil
     end
     
     def grid_index(width, x, y)
@@ -71,10 +69,28 @@ module ActiveCharts
       
       step = scale_interval(min, max)
       
-      a = min.zero? ? 0 : ((min.to_d / step).to_i - 1) * step
-      b = max.zero? ? 0 : ((max.to_d / step).to_i + 1) * step
+      a = scale_a(min, step)
+      b = scale_b(max, step)
       
       [a, b, step]
+    end
+    
+    def scale_a(min, step)
+      return 0 if min.zero? 
+      
+      unscaled_a = (min.to_d / step).to_i
+      unscaled_a -= 1 if min.negative? || (min == unscaled_a * step)
+      
+      unscaled_a * step
+    end
+    
+    def scale_b(max, step)
+      return 0 if max.zero? 
+      
+      unscaled_b = (max.to_d / step).to_i
+      unscaled_b += 1 if max.positive? || (max == unscaled_b * step)
+      
+      unscaled_b * step
     end
     
     def scale_interval(min, max)
@@ -99,8 +115,8 @@ module ActiveCharts
     end
     
     module_function :max_values, :array_of_arrays?, :initialize_maxes, :multiplier, :safe_to_dec, :date_like?,
-                    :date_label, :grid_index, :scaled_position, :scale, :scale_interval, :valid_max_min?, 
-                    :valid_collection?
+                    :date_label, :grid_index, :scaled_position, :scale, :scale_a, :scale_b, :scale_interval, 
+                    :valid_max_min?, :valid_collection?
   end
   
   private_constant :Util

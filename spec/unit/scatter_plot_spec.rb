@@ -62,8 +62,8 @@ module ActiveCharts
     it '#dots_specs' do
       expect(scatter.dots_specs.first).to eq(
         [
-          { cx: 558.0, cy: 41.818182, class: 'ac-scatter-plot-dot series-a', label: 'Q1' }, 
-          { cx: 62.0, cy: 167.272727, class: 'ac-scatter-plot-dot series-b', label: 'Q1' }
+          { cx: 558.0, cy: 41.818182, class: 'ac-scatter-plot-dot ac-triggerable series-a', label: 'Q1' }, 
+          { cx: 62.0, cy: 167.272727, class: 'ac-scatter-plot-dot ac-triggerable series-b', label: 'Q1' }
         ]
       )
     end
@@ -79,7 +79,7 @@ module ActiveCharts
     end
     
     it '#bottom_label_text_tags' do
-      expect(scatter.bottom_label_text_tags).to include(SVGChart.scatter_plot_x_labels)
+      expect(scatter.bottom_label_text_tags).to include(SVGChart.xy_chart_x_labels)
     end
   end
 end
