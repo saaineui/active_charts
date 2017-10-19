@@ -5,7 +5,7 @@ module ActiveCharts
   RSpec.describe XYChart do
     let(:collection) { [[[5, 1], [-3, -2]], [[2, '0.1'], [1, -8]]] }
     let(:date_collection) { [[[Date.new(2016, 1, 1), 1]], [[Date.new(2017, 1, 1), 2]]] }
-    let(:options) { { title: 'YoY Sales Growth vs. YoY Marketing Spend', series_labels: ['Lemonade', 'Cookies'], rows: ['Q1', 'Q2'], width: 700, height: 500, label_height: 20, class: 'my-class', data_formatters: %i[currency default] } }
+    let(:options) { { title: 'YoY Sales Growth vs. YoY Marketing Spend', series_labels: %w[Lemonade Cookies], rows: %w[Q1 Q2], width: 700, height: 500, label_height: 20, class: 'my-class', data_formatters: %i[currency default] } }
     let(:chart_stub) { XYChart.new(collection, {}) }
     let(:chart) { XYChart.new(collection, options) }
     let(:date_chart) { XYChart.new(date_collection, data_formatters: [:date]) }
@@ -48,7 +48,7 @@ module ActiveCharts
       expect(x_labels.class).to eql(Enumerator)
       expect(x_labels.to_a).to eql((-4..6).to_a)
       
-      expect(date_chart.x_labels.to_a).to eql((2457200..2457800).step(100).to_a)
+      expect(date_chart.x_labels.to_a).to eql((2_457_300..2_457_800).step(100).to_a)
     end
     
     it '#y_labels returns enumerator of ticks' do
@@ -119,7 +119,7 @@ module ActiveCharts
     end
     
     it '#bottom_label_text_tags returns text tags' do
-      expect(chart.bottom_label_text_tags).to include(SVGChart.scatter_plot_x_labels)
+      expect(chart.bottom_label_text_tags).to include(SVGChart.xy_chart_x_labels)
       expect(date_chart.bottom_label_text_tags).to include(SVGChart.xy_date_chart_x_labels)
     end
   end

@@ -6,6 +6,7 @@ module ActiveCharts
       ActiveSupport.on_load(:action_view) do
         include ActiveCharts::Helpers::BarChartHelper
         include ActiveCharts::Helpers::ScatterPlotHelper
+        include ActiveCharts::Helpers::LineChartHelper
       end
     end
 
@@ -22,5 +23,6 @@ module ActiveCharts
     autoload :XYChart
     autoload :BarChart
     autoload :ScatterPlot
+    autoload :LineChart
   end  
 end

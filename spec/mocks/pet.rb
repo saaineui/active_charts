@@ -17,3 +17,9 @@ class Pet < ApplicationRecord
     %w[name floor_1 floor_2 floor_3 floor_4]
   end
 end
+
+class Cat < Pet
+  def attribute_names
+    %w[floor_1 floor_2 floor_3 floor_4]
+  end
+end  

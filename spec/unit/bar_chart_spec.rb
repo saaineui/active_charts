@@ -4,7 +4,7 @@ require 'mocks/svg_chart'
 module ActiveCharts
   RSpec.describe BarChart do
     let(:collection) { [[5, 1], [2, 3, '0.1']] }
-    let(:options) { { title: 'Pets per Floor', series_labels: ['<b>Floor 1</b>', 'Floor 2'], rows: ['cats', 'dogs'], bar_width: 50, height: 500, label_height: 20, class: 'my-class', data_formatters: %i[delimiter percent rounded] } }
+    let(:options) { { title: 'Pets per Floor', series_labels: ['<b>Floor 1</b>', 'Floor 2'], rows: %w[cats dogs], bar_width: 50, height: 500, label_height: 20, class: 'my-class', data_formatters: %i[delimiter percent rounded] } }
     let(:bar_chart_stub) { BarChart.new(collection, {}) }
     let(:bar_chart) { BarChart.new(collection, options) }
     let(:rect_tag) { SVGChart.grid_rect_tag(bar_chart.grid_height, bar_chart.grid_width) }
@@ -20,7 +20,7 @@ module ActiveCharts
     
     it '#x_labels returns array of row labels, if any' do
       expect(bar_chart_stub.x_labels).to eql([])
-      expect(bar_chart.x_labels).to eql(['cats', 'dogs'])
+      expect(bar_chart.x_labels).to eql(%w[cats dogs])
     end
     
     it '#series_labels returns array of column labels, if any' do
@@ -95,9 +95,12 @@ module ActiveCharts
     end
 
     it '#bars_specs' do
-      expect(bar_chart.bars_specs.first).to eq([
-        { height: 400.0, x: 20, y: 60.0, class: "ac-bar-chart-bar series-a", val: 5, formatter: :delimiter }, 
-        { height: 133.333333, x: 90, y: 326.666667, class: "ac-bar-chart-bar series-b", val: 1, formatter: :percent }])
+      expect(bar_chart.bars_specs.first).to eq(
+        [
+          { height: 400.0, x: 20, y: 60.0, class: 'ac-bar-chart-bar series-a', val: 5, formatter: :delimiter }, 
+          { height: 133.333333, x: 90, y: 326.666667, class: 'ac-bar-chart-bar series-b', val: 1, formatter: :percent }
+        ]
+      )
     end
     
     it '#bars returns array of <rect> and <text> tags' do

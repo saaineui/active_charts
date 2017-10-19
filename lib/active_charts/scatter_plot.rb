@@ -15,7 +15,7 @@ module ActiveCharts
       
       dots_specs.flatten.map do |dot| 
         [%(<circle #{tag_options(dot, whitelist)} />),
-         tag.text(dot[:label], x: dot[:cx] + OFFSET, y: dot[:cy] - OFFSET, class: 'ac-scatter-plot-label')]
+         tag.text(dot[:label], x: dot[:cx] + OFFSET, y: dot[:cy] - OFFSET, class: label_classes)]
       end
     end
 
@@ -49,7 +49,7 @@ module ActiveCharts
     end
     
     def dot_classes(col)
-      ['ac-scatter-plot-dot', series_class(col)].join(' ')
+      ['ac-scatter-plot-dot', 'ac-triggerable', series_class(col)].join(' ')
     end
   end
 end
