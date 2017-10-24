@@ -1,6 +1,8 @@
 module SVGChart
   TOP_LEFT_OFFSET = 1
   
+  module_function
+  
   def bar_chart
     %(<figure class="ac-chart-container ac-clearfix "><figcaption class="ac-chart-title">Pets per Floor</figcaption>
           <svg xmlns="http://www.w3.org/2000/svg" style="width: 280px; height: auto;" viewBox="0 0 280 410" class="ac-chart ac-bar-chart">#{grid_rect_tag(390, 280)}
@@ -87,10 +89,4 @@ module SVGChart
     offset = TOP_LEFT_OFFSET * 2
     %(<rect x="1" y="1" height="#{height - offset}" width="#{width - offset}" class="grid"></rect>)
   end
-  
-  module_function :bar_chart, :bar_chart_empty, 
-                  :scatter_plot, 
-                  :line_chart, 
-                  :xy_chart_empty, :xy_chart_x_labels, :xy_date_chart_x_labels, 
-                  :grid_rect_tag
 end

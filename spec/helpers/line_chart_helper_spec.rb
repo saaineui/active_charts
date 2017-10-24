@@ -1,6 +1,5 @@
 require 'spec_helper'
-require 'mocks/pet'
-require 'mocks/pet_collection'
+require 'factories/pets'
 require 'mocks/svg_chart'
 
 module ActiveCharts
@@ -8,11 +7,11 @@ module ActiveCharts
     RSpec.describe 'LineChartHelper' do
       include LineChartHelper
       
-      let(:xy_collection) { [[[5, 1], [5, 0]], [[2, 3], [2, 0]]] }
-      let(:xy_pets) { PetCollection.new(Pet.new('cats', 5, 1, 0), Pet.new('dogs', 2, 3)) }
-      let(:xy_options) { { title: 'Pets per Floor', rows: %w[cats dogs], series_labels: ['Floor 1 vs. Floor 2', 'Floor 1 vs. Floor 3'] } }
-      let(:empty_pets) { PetCollection.new([]) }
-      let(:spare_options) { { title: xy_options[:title], height: xy_options[:height] } }
+      let(:xy_collection) { Factories::Pets.collection(:large) }
+      let(:xy_pets) { Factories::Pets.all(:large) }
+      let(:xy_options) { Factories::Pets.options(3) }
+      let(:empty_pets) { Factories::Pets.empty }
+      let(:spare_options) { Factories::Pets.options(400) }
       let(:pets_title) { %(<figcaption class="ac-chart-title">Pets per Floor</figcaption>) }
       let(:mock_line_chart) { SVGChart.line_chart }
       let(:line_chart_empty) { SVGChart.xy_chart_empty(600, 400, 'line-chart') }

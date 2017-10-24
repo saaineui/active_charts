@@ -1,6 +1,8 @@
 module ActiveCharts
   # @private
   module Util
+    module_function
+    
     def max_values(array_of_arrays)
       return [] unless array_of_arrays?(array_of_arrays)
       
@@ -113,10 +115,6 @@ module ActiveCharts
     def valid_collection?(item)
       item.respond_to?(:first) && item.first.class.superclass.eql?(ApplicationRecord)
     end
-    
-    module_function :max_values, :array_of_arrays?, :initialize_maxes, :multiplier, :safe_to_dec, :date_like?,
-                    :date_label, :grid_index, :scaled_position, :scale, :scale_a, :scale_b, :scale_interval, 
-                    :valid_max_min?, :valid_collection?
   end
   
   private_constant :Util

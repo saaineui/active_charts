@@ -3,6 +3,7 @@ require 'action_view/helpers/capture_helper'
 require 'action_view/helpers/output_safety_helper'
 require 'action_view/helpers/tag_helper'
 require 'active_support/inflector'
+require 'active_charts/util'
 
 module ActiveCharts
   class Chart

@@ -1,17 +1,15 @@
 require 'spec_helper'
-require 'mocks/pet'
-require 'mocks/pet_collection'
+require 'factories/pets'
 
 module ActiveCharts
   module Helpers 
     RSpec.describe 'CollectionParser' do
-      let(:pet) { Pet.new('cats', 1, 2) }
-      let(:pets) { PetCollection.new(pet) }
-      let(:cp) { CollectionParser.new(pets, %i[floor_1 floor_2 random], nil) }
-      let(:floor_columns) { %i[floor_1 floor_2] }
+      let(:cp) { CollectionParser.new(Factories::Pets.all, %i[floor_1 floor_2 random], nil) }
+      let(:floor_columns) { Factories::Pets.columns }
+      let(:collection) { Factories::Pets.collection }
       
       it '#collection' do
-        expect(cp.collection).to eq([[1, 2]])
+        expect(cp.collection).to eq(collection)
       end
       
       it '#columns' do
@@ -19,7 +17,7 @@ module ActiveCharts
       end
       
       it '#rows' do
-        expect(cp.rows).to eq(%w[cats])
+        expect(cp.rows).to eq(Factories::Pets.rows)
         
         # if label_column is not given or is not whitelisted, first column is used automatically
         cat = Cat.new('cats', 1, 2)
@@ -28,15 +26,15 @@ module ActiveCharts
       end
 
       it '#xy_collection' do
-        expect(cp.xy_collection).to eq([[[1, 2]]])
+        expect(cp.xy_collection).to eq(collection.map { |xy| [xy] })
       end
       
       it '#series_labels' do
-        expect(cp.series_labels).to eql(['Floor 1', 'Floor 2'])
+        expect(cp.series_labels).to eql(Factories::Pets.series_labels)
       end
 
       it '#xy_series_labels' do
-        expect(cp.xy_series_labels).to eql(['Floor 1 vs. Floor 2'])
+        expect(cp.xy_series_labels).to eql(Factories::Pets.series_labels(:large)[0, 1])
       end
     end
   end

@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'active_charts/util'
 require 'mocks/pet'
 require 'mocks/pet_collection'
 

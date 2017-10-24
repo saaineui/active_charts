@@ -17,7 +17,6 @@ module ActiveCharts
 
   eager_autoload do
     autoload :Helpers
-    autoload :Util
     autoload :Chart
     autoload :RectangularChart
     autoload :XYChart
