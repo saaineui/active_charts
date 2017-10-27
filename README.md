@@ -18,13 +18,15 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
+Generate the default stylesheet and script files:
 
-    $ gem install active_charts
+    $ rails g active_charts:install
+    
+Follow the printed instructions to include them in your assets pipeline.
 
 ## Usage
 
-TK.
+
 
 ## Development
 

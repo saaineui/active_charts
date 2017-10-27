@@ -1,0 +1,136 @@
+$ac-light-gray: #dedede;
+$ac-red: #fe4a5d;
+$ac-orange: #ff9016;
+$ac-yellow: #fee123;
+$ac-green: #008476;
+$ac-blue: #4542ca;
+$ac-purple: #702277;
+$ac-pink: #ffb3cb; 
+$ac-lime: #a5e100; 
+$ac-teal: #00a0cc; 
+$ac-lavendar: #c19bff; 
+$ac-gold: #d39f10; 
+$ac-brown: #7d4a32; 
+$ac-gray: #aaa; 
+$ac-black: #000; 
+$ac-olive: #a09f29; 
+
+$ac-border: $ac-light-gray;
+
+$ac-series: (
+  series-a: $ac-red,
+  series-b: $ac-orange,
+  series-c: $ac-yellow,
+  series-d: $ac-green,
+  series-e: $ac-blue,
+  series-f: $ac-purple,
+  series-g: $ac-pink, 
+  series-h: $ac-lime, 
+  series-i: $ac-teal, 
+  series-j: $ac-lavendar, 
+  series-k: $ac-gold, 
+  series-l: $ac-brown, 
+  series-m: $ac-gray, 
+  series-n: $ac-black, 
+  series-o: $ac-olive, 
+);
+
+@mixin smart-box {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+      -ms-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
+
+@mixin slow-transitions {
+  -webkit-transition-property: opacity background color fill stroke; 
+  -webkit-transition-duration: 0.20s; 
+  -webkit-transition-timing-function: ease-out; 
+     -moz-transition-property: opacity background color fill stroke; 
+     -moz-transition-duration: 0.20s; 
+     -moz-transition-timing-function: ease-out; 
+      -ms-transition-property: opacity background color fill stroke; 
+      -ms-transition-duration: 0.20s; 
+      -ms-transition-timing-function: ease-out; 
+          transition-property: opacity background color fill stroke; 
+          transition-duration: 0.20s; 
+          transition-timing-function: ease-out; 
+}
+
+text, circle { @include slow-transitions; }
+
+.ac-clearfix:before,
+.ac-clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+.ac-clearfix:after {
+    clear: both;
+}
+
+figure.ac-chart-container {
+  margin-bottom: 1em;
+}
+
+figcaption.ac-chart-title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1em; 
+  text-transform: capitalize;
+  margin: 0 auto 0.5em auto;
+}
+
+svg.ac-chart { 
+  background: #fff;
+  max-width: 100%;
+  display: block; 
+  margin: 0 auto 1em auto;
+  
+  line.ac-grid-line, rect { stroke-width: 1px; stroke: $ac-border; }
+  path.ac-line-chart-line { stroke-width: 1px; fill: transparent; }
+  rect.grid { fill: #fff; }
+  text { text-anchor: middle; font-size: 14px; height: 12px; }
+  text.anchor_start, text.ac-y-label { text-anchor: start; }
+  text.ac-toggleable { text-anchor: start; opacity: 0; cursor: pointer; z: 2; }
+  text.ac-toggleable:hover { opacity: 0.2; }
+  .ac-triggerable { cursor: pointer; z: 1; }
+}
+
+svg.ac-chart.ac-scatter-plot {
+  circle.ac-scatter-plot-dot { r: 3px; stroke-width: 3px; fill: transparent; }
+}
+
+ul.ac-chart.ac-series-legend {
+  @include smart-box;
+  
+  width: 360px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0.25em;
+  
+  li { 
+    list-style: none; 
+    text-align: left; 
+    padding-left: 0.5em;
+    margin-bottom: 0.2em;
+    border-left-width: 1em; 
+    border-left-style: solid;
+  }
+}
+
+@each $name, $color in $ac-series {
+  rect.ac-bar-chart-bar.#{$name} { fill: $color; }
+  path.ac-line-chart-line.#{$name},
+    circle.ac-scatter-plot-dot.#{$name} { stroke: $color; }
+  li.#{$name} { border-color: $color; }
+}
+
+.ac-highlight { stroke: $ac-black !important; z: 1 !important; }
+.ac-visible { opacity: 1 !important; z: 2 !important; }
