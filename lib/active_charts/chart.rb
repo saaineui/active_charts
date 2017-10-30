@@ -97,6 +97,8 @@ module ActiveCharts
         Util.safe_to_dec(val).round
       when :currency
         number_to_currency(val, precision: 0)
+      when :none
+        val.to_i.to_s
       else
         number_with_delimiter(val)
       end

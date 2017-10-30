@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'active_charts/util'
+
 module ActiveCharts
   module Helpers #:nodoc:
     module LineChartHelper

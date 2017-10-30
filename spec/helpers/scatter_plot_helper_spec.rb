@@ -9,12 +9,21 @@ module ActiveCharts
       
       let(:xy_collection) { Factories::Pets.collection(:large) }
       let(:xy_pets) { Factories::Pets.all(:large) }
+      let(:columns) { Factories::Pets.columns }
       let(:xy_options) { Factories::Pets.options(2) }
       let(:empty_pets) { Factories::Pets.empty }
       let(:spare_options) { Factories::Pets.options }
       let(:pets_title) { %(<figcaption class="ac-chart-title">Pets per Floor</figcaption>) }
       let(:mock_scatter_plot) { SVGChart.scatter_plot }
       let(:scatter_plot_empty) { SVGChart.xy_chart_empty }
+      
+      it 'has CollectionParser class' do
+        expect { CollectionParser.new(xy_pets, columns, nil) }.not_to raise_error      
+      end
+
+      it 'has Util module functions' do
+        expect { Util.safe_to_dec(0) }.not_to raise_error
+      end
       
       describe '::scatter_plot' do
         it 'returns a <figure>, <figcaption>, <svg> chart and <ul> legend' do

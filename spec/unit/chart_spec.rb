@@ -68,6 +68,7 @@ module ActiveCharts
     end
     
     it '#formatted_val returns value formatted by specified type' do
+      expect(chart.send(:formatted_val, 25_125.0, :none)).to eq('25125')
       expect(chart.send(:formatted_val, 25_125, :currency)).to eq('$25,125')
       expect(chart.send(:formatted_val, 0.12345, :percent)).to eq('12.3%')
       expect(chart.send(:formatted_val, Date.new(2017, 1, 1), :date)).to eq('2017-01-01')

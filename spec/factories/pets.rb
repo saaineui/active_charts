@@ -3,7 +3,7 @@ require 'mocks/pet_collection'
 
 module Factories
   module Pets
-    DEFAULT_OPTIONS = { title: 'Pets per Floor', height: 410 }
+    DEFAULT_OPTIONS = { title: 'Pets per Floor', height: 410 }.freeze
     
     module_function
     
