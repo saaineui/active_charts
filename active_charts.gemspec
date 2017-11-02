@@ -32,10 +32,15 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 2.2.2'
   
   spec.add_dependency "rails", ">= 5.0.1"
-
+  spec.add_dependency 'sass-rails', '~> 5.0'
+  spec.add_dependency "thor"
+  
   spec.add_development_dependency "bundler", "~> 1.15"
   spec.add_development_dependency "rake", "~> 10.5"
   spec.add_development_dependency "rspec", "~> 3.6"
   spec.add_development_dependency "rspec-rails"
+  spec.add_development_dependency "cucumber"
+  spec.add_development_dependency "aruba"
+  spec.add_development_dependency "jasmine"
   spec.add_development_dependency "simplecov"
 end

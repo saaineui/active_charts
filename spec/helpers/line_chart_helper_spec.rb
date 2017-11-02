@@ -9,12 +9,21 @@ module ActiveCharts
       
       let(:xy_collection) { Factories::Pets.collection(:large) }
       let(:xy_pets) { Factories::Pets.all(:large) }
+      let(:columns) { Factories::Pets.columns }
       let(:xy_options) { Factories::Pets.options(3) }
       let(:empty_pets) { Factories::Pets.empty }
       let(:spare_options) { Factories::Pets.options(400) }
       let(:pets_title) { %(<figcaption class="ac-chart-title">Pets per Floor</figcaption>) }
       let(:mock_line_chart) { SVGChart.line_chart }
       let(:line_chart_empty) { SVGChart.xy_chart_empty(600, 400, 'line-chart') }
+      
+      it 'has CollectionParser class' do
+        expect { CollectionParser.new(xy_pets, columns, nil) }.not_to raise_error      
+      end
+
+      it 'has Util module functions' do
+        expect { Util.safe_to_dec(0) }.not_to raise_error
+      end
       
       describe '::line_chart' do
         it 'returns a <figure>, <figcaption>, <svg> chart and <ul> legend' do
