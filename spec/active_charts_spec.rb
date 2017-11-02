@@ -11,7 +11,7 @@ RSpec.describe ActiveCharts do
   let(:columns) { Factories::Pets.columns }
   
   it 'has a version number' do
-    expect(ActiveCharts::VERSION).to eq('0.1.6')
+    expect(ActiveCharts::VERSION).to eq('0.1.7')
   end
   
   it 'helper modules are defined' do
