@@ -13,7 +13,8 @@ module ActiveCharts
         return scatter_plot([[]], options) unless Util.valid_collection?(resource_collection)
         
         parser = CollectionParser.new(resource_collection, columns, options[:label_column])
-        options = options.merge(series_labels: parser.xy_series_labels, rows: parser.rows)
+        series_labels = options[:series_labels] || parser.xy_series_labels
+        options = options.merge(series_labels: series_labels, rows: parser.rows)
         
         scatter_plot(parser.xy_collection, options)
       end

@@ -73,8 +73,9 @@ All charts have the following options unless indicated otherwise:
  - `:data_formatters` - Specifies an array of symbols for special formatting of data columns. If not set, all data will be floating point numbers formatted using the `number_with_delimiter` helper.
     - Available formatters are: `:percent`, `:date`, `:currency`, `:rounded`, `:none`.
  - `:max_values` - Specifies an array of max y values for each data column, in column order (e.g. [300000, 1, 300000] might be passed for the above example, if we want Median Income and GDP Per Capita rendered using the same scale). Default will be the largest value in each column, as calculated by ActiveCharts.
- - `:label_height` - Set to true if you want to force a single y scale across all of your columns. (Note: if `:max_values` is set to valid data, it will override this setting.)
+ - `:single_y_scale` - Set to true if you want to force a single y scale across all of your columns. (Note: if `:max_values` is set to valid data, it will override this setting.)
  - `:series_labels` - Specifies an array of strings to use in the legend. (Default on basic helpers is []. Default on `_for` helpers is an array of column names.)
+ - `:label_height` - Specifies the number of pixels high the chart text labels should be. (Default is 10.) 
 
 All rectangular charts (Bar Charts, Scatter Plots, and Line Charts) have the following options unless indicated otherwise:
 
@@ -159,7 +160,7 @@ _Note: The path for each series will be drawn in the given order, so please sort
 
 ```ruby
 # view:
-<%= line_chart_for(State.all, [:median_income, :gdp_per_capita], title: 'Census Data by State') %>
+<%= line_chart_for(State.all.order(:name), [:median_income, :gdp_per_capita], title: 'Census Data by State') %>
 ```
 
 ## Development
