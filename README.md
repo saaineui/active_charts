@@ -2,8 +2,6 @@
 
 Beautiful, easy charts for ActiveRecord and Rails.
 
-[![View on Travis](https://travis-ci.org/saaineui/active_charts.svg?branch=master)](https://travis-ci.org/saaineui/active_charts)
-
 ActiveCharts is a charting toolset that integrates into ActiveRecord and ActionView for fast, easy business intelligence and data visualization on any Rails app. 
 
 ActiveCharts uses inline SVG wherever possible for simplicity and best performance on the web. Javascript is used only when absolutely necessary.
